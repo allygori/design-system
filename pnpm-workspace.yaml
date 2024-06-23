@@ -1,3 +1,6 @@
 packages:
   - "apps/*"
   - "packages/*"
+  - "packages/react-base/components/*"
+  - "packages/react-base/hooks/*"
+  - "packages/react-base/shared/*"

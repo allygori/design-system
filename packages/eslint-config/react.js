@@ -16,6 +16,7 @@ module.exports = {
     "@vercel/style-guide/eslint/browser",
     "@vercel/style-guide/eslint/typescript",
     "@vercel/style-guide/eslint/react",
+    "prettier",
   ].map(require.resolve),
   parserOptions: {
     project,
@@ -35,5 +36,13 @@ module.exports = {
   // add rules configurations here
   rules: {
     "import/no-default-export": "off",
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "react/function-component-definition": [
+      "enabled",
+      {
+        namedComponents: "arrow-function",
+        unnamedComponents: "function-expression",
+      },
+    ],
   },
 };

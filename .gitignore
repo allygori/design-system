@@ -34,6 +34,7 @@ dist-ssr
 server/dist
 public/dist
 storybook-static/
+migration-storybook.log
 
 # Cache
 %SystemDrive%
