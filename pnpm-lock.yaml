@@ -179,6 +179,52 @@ importers:
         specifier: ^5.3.3
         version: 5.4.5
 
+  packages/react-base/components/collapsible:
+    dependencies:
+      '@allygory/context':
+        specifier: workspace:^
+        version: link:../context
+      '@allygory/element':
+        specifier: workspace:^
+        version: link:../element
+      '@allygory/presence':
+        specifier: workspace:^
+        version: link:../presence
+      '@allygory/use-compose-refs':
+        specifier: workspace:^
+        version: link:../../hooks/use-compose-refs
+      '@allygory/use-controllable-state':
+        specifier: workspace:^
+        version: link:../../hooks/use-controllable-state
+      '@allygory/use-id':
+        specifier: workspace:^
+        version: link:../../hooks/use-id
+      '@allygory/use-layout-effect':
+        specifier: workspace:^
+        version: link:../../hooks/use-layout-effect
+      react:
+        specifier: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+        version: 18.3.1
+    devDependencies:
+      '@allygory/eslint-config':
+        specifier: workspace:*
+        version: link:../../../eslint-config
+      '@allygory/typescript-config':
+        specifier: workspace:*
+        version: link:../../../typescript-config
+      '@types/react':
+        specifier: ^18.2.61
+        version: 18.3.3
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      tsup:
+        specifier: ^8.0.2
+        version: 8.0.2(postcss@8.4.38)(typescript@5.4.5)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.4.5
+
   packages/react-base/components/context:
     dependencies:
       react:
