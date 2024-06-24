@@ -1,7 +1,7 @@
 "use client";
 
 import { createDialogScope } from "./shared/context";
-import Dialog, { type DialogProps } from "./root";
+import Dialog, { type DialogRootProps } from "./root";
 import DialogTrigger, { type DialogTriggerProps } from "./trigger";
 import DialogPortal, { type DialogPortalProps } from "./portal";
 import DialogOverlay, { type DialogOverlayProps } from "./overlay";
@@ -45,7 +45,7 @@ export {
   WarningProvider,
 };
 export type {
-  DialogProps,
+  DialogRootProps,
   DialogTriggerProps,
   DialogPortalProps,
   DialogOverlayProps,

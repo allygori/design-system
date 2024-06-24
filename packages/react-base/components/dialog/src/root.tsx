@@ -5,15 +5,17 @@ import { DIALOG_NAME } from "./shared/constants";
 import { type ScopedProps, DialogProvider } from "./shared/context";
 import { type DialogContentElement } from "./shared/types";
 
-interface DialogProps {
+type DialogRootProps = {
   children?: ReactNode;
   open?: boolean;
   defaultOpen?: boolean;
   modal?: boolean;
   onOpenChange?(open: boolean): void;
-}
+};
 
-const DialogRoot: FC<DialogProps> = (props: ScopedProps<DialogProps>) => {
+const DialogRoot: FC<DialogRootProps> = (
+  props: ScopedProps<DialogRootProps>,
+) => {
   const {
     __scopeDialog,
     children,
@@ -40,12 +42,12 @@ const DialogRoot: FC<DialogProps> = (props: ScopedProps<DialogProps>) => {
       titleId={useId()}
       descriptionId={useId()}
       open={open}
+      modal={modal}
       onOpenChange={setOpen}
       onOpenToggle={useCallback(
         () => setOpen((prevOpen) => !prevOpen),
         [setOpen],
       )}
-      modal={modal}
     >
       {children}
     </DialogProvider>
@@ -54,5 +56,5 @@ const DialogRoot: FC<DialogProps> = (props: ScopedProps<DialogProps>) => {
 
 DialogRoot.displayName = DIALOG_NAME;
 
-export type { DialogProps };
+export type { DialogRootProps };
 export default DialogRoot;
