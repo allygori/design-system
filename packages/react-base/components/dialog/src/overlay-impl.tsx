@@ -2,9 +2,9 @@ import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 import { RemoveScroll } from "react-remove-scroll";
 import Slot from "@allygory/slot";
 import Element from "@allygory/element";
-import { ScopedProps, useDialogContext } from "./lib/context";
-import { getState } from "./lib/utils";
-import { OVERLAY_NAME } from "./lib/constants";
+import { ScopedProps, useDialogContext } from "./shared/context";
+import { getState } from "./shared/utils";
+import { OVERLAY_NAME } from "./shared/constants";
 
 type DialogOverlayImplElement = ElementRef<typeof Element.div>;
 type DialogOverlayImplProps = ComponentPropsWithoutRef<typeof Element.div>;

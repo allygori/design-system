@@ -2,13 +2,13 @@ import { forwardRef, useEffect, useRef } from "react";
 import { hideOthers } from "aria-hidden";
 import useComposedRefs from "@allygory/use-compose-refs";
 import { composeEventHandlers } from "@allygory/element";
-import { ScopedProps, useDialogContext } from "./lib/context";
-import { CONTENT_NAME } from "./lib/constants";
-import DialogContentImpl from "./dialog-content-impl";
+import { ScopedProps, useDialogContext } from "./shared/context";
+import { CONTENT_NAME } from "./shared/constants";
+import DialogContentImpl from "./content-impl";
 import type {
   DialogContentImplElement,
   DialogContentImplProps,
-} from "./dialog-content-impl";
+} from "./content-impl";
 
 type DialogContentTypeElement = DialogContentImplElement;
 type DialogContentTypeProps = Omit<

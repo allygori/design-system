@@ -5,12 +5,11 @@ import DismissableLayer, {
   type DismissableLayerProps,
 } from "@allygory/dismissable-layer";
 import FocusScope, { type FocusScopeProps } from "@allygory/focus-scope";
-import { type ScopedProps, useDialogContext } from "./lib/context";
-import { getState } from "./lib/utils";
-// import { DISPLAY_NAME } from "./dialog-content";
-import { CONTENT_NAME } from "./lib/constants";
-
-// const DISPLAY_NAME = "DialogContentImpl";
+import { type ScopedProps, useDialogContext } from "./shared/context";
+import { getState } from "./shared/utils";
+import { CONTENT_NAME } from "./shared/constants";
+import TitleWarning from "./title-warning";
+import DescriptionWarning from "./description-warning";
 
 type DialogContentImplElement = ElementRef<typeof DismissableLayer>;
 type DialogContentImplProps = Omit<DismissableLayerProps, "onDismiss"> & {
@@ -75,8 +74,11 @@ const DialogContentImpl = forwardRef<
       </FocusScope>
       {process.env.NODE_ENV !== "production" && (
         <>
-          {/* <TitleWarning titleId={context.titleId} /> */}
-          {/* <DescriptionWarning contentRef={contentRef} descriptionId={context.descriptionId} /> */}
+          <TitleWarning titleId={context.titleId} />
+          <DescriptionWarning
+            contentRef={contentRef}
+            descriptionId={context.descriptionId}
+          />
         </>
       )}
     </>

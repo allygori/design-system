@@ -13,6 +13,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@allygory/alert": "workspace:^",
     "@allygory/dialog": "workspace:^",
     "@allygory/dismissable-layer": "workspace:^",
     "@allygory/slot": "workspace:^",

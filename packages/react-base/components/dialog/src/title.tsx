@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 import Element from "@allygory/element";
-import { ScopedProps, useDialogContext } from "./lib/context";
+import { ScopedProps, useDialogContext } from "./shared/context";
 
 const DISPLAY_NAME = "DialogTitle";
 

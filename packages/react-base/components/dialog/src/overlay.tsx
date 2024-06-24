@@ -1,9 +1,13 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 import Presence from "@allygory/presence";
 import Element from "@allygory/element";
-import { ScopedProps, useDialogContext, usePortalContext } from "./lib/context";
-import DialogOverlayImpl from "./dialog-overlay-impl";
-import { OVERLAY_NAME } from "./lib/constants";
+import {
+  ScopedProps,
+  useDialogContext,
+  usePortalContext,
+} from "./shared/context";
+import DialogOverlayImpl from "./overlay-impl";
+import { OVERLAY_NAME } from "./shared/constants";
 
 type DialogOverlayElement = ElementRef<typeof Element.div>;
 type DialogOverlayProps = ComponentPropsWithoutRef<typeof Element.div> & {

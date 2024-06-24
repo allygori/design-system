@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 import Element from "@allygory/element";
-import { ScopedProps, useDialogContext } from "./lib/context";
-import { DESCRIPTION_NAME } from "./lib/constants";
+import { ScopedProps, useDialogContext } from "./shared/context";
+import { DESCRIPTION_NAME } from "./shared/constants";
 
 type DialogDescriptionElement = ElementRef<typeof Element.p>;
 type DialogDescriptionProps = ComponentPropsWithoutRef<typeof Element.p>;

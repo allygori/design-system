@@ -1,0 +1,9 @@
+export const ROOT_NAME = "Alert";
+export const TRIGGER_NAME = "AlertTrigger";
+export const PORTAL_NAME = "AlertPortal";
+export const OVERLAY_NAME = "AlertOverlay";
+export const CONTENT_NAME = "AlertContent";
+export const TITLE_NAME = "AlertTitle";
+export const DESCRIPTION_NAME = "AlertDescription";
+export const ACTION_NAME = "AlertAction";
+export const CANCEL_NAME = "AlertCancel";

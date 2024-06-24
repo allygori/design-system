@@ -1,8 +1,12 @@
 import { Children, ComponentPropsWithoutRef, ReactNode, FC } from "react";
-import { PortalProvider, ScopedProps, useDialogContext } from "./lib/context";
+import {
+  PortalProvider,
+  ScopedProps,
+  useDialogContext,
+} from "./shared/context";
 import PortalPrimitive from "@allygory/portal";
 import Presence from "@allygory/presence";
-import { PORTAL_NAME } from "./lib/constants";
+import { PORTAL_NAME } from "./shared/constants";
 
 type PortalProps = ComponentPropsWithoutRef<typeof PortalPrimitive>;
 type DialogPortalProps = {

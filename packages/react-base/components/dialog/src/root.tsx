@@ -1,9 +1,9 @@
 import { useCallback, useRef, ReactNode, FC } from "react";
 import useControllableState from "@allygory/use-controllable-state";
 import useId from "@allygory/use-id";
-import { DIALOG_NAME } from "./lib/constants";
-import { type ScopedProps, DialogProvider } from "./lib/context";
-import { type DialogContentElement } from "./lib/types";
+import { DIALOG_NAME } from "./shared/constants";
+import { type ScopedProps, DialogProvider } from "./shared/context";
+import { type DialogContentElement } from "./shared/types";
 
 interface DialogProps {
   children?: ReactNode;

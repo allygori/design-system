@@ -1,9 +1,9 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 import Element, { composeEventHandlers } from "@allygory/element";
 import useComposedRefs from "@allygory/use-compose-refs";
-import { type ScopedProps, useDialogContext } from "./lib/context";
-import { TRIGGER_NAME } from "./lib/constants";
-import { getState } from "./lib/utils";
+import { type ScopedProps, useDialogContext } from "./shared/context";
+import { TRIGGER_NAME } from "./shared/constants";
+import { getState } from "./shared/utils";
 
 type DialogTriggerElement = ElementRef<typeof Element.button>;
 type DialogTriggerProps = ComponentPropsWithoutRef<typeof Element.button>;

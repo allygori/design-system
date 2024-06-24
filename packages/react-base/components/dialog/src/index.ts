@@ -1,17 +1,21 @@
 "use client";
 
-import { createDialogScope } from "./lib/context";
-
-import Dialog, { type DialogProps } from "./dialog-root";
-import DialogTrigger, { type DialogTriggerProps } from "./dialog-trigger";
-import DialogPortal, { type DialogPortalProps } from "./dialog-portal";
-import DialogOverlay, { type DialogOverlayProps } from "./dialog-overlay";
-import DialogContent, { type DialogContentProps } from "./dialog-content";
-import DialogDescription, {
-  type DialogDescriptionProps,
-} from "./dialog-description";
-import DialogTitle, { type DialogTitleProps } from "./dialog-title";
-import DialogClose, { type DialogCloseProps } from "./dialog-close";
+import { createDialogScope } from "./shared/context";
+import Dialog, { type DialogProps } from "./root";
+import DialogTrigger, { type DialogTriggerProps } from "./trigger";
+import DialogPortal, { type DialogPortalProps } from "./portal";
+import DialogOverlay, { type DialogOverlayProps } from "./overlay";
+import DialogContent, { type DialogContentProps } from "./content";
+import DialogTitle, { type DialogTitleProps } from "./title";
+import DialogTitleWarning, {
+  type DialogTitleWarningProps,
+} from "./title-warning";
+import DialogDescription, { type DialogDescriptionProps } from "./description";
+import DialogDescriptionWarning, {
+  type DialogDescriptionWarningProps,
+} from "./description-warning";
+import DialogClose, { type DialogCloseProps } from "./close";
+import { WarningProvider } from "./shared/context";
 
 export {
   createDialogScope,
@@ -21,8 +25,10 @@ export {
   DialogPortal,
   DialogOverlay,
   DialogContent,
-  DialogDescription,
   DialogTitle,
+  DialogTitleWarning,
+  DialogDescription,
+  DialogDescriptionWarning,
   DialogClose,
   //
   Dialog as Root,
@@ -30,9 +36,13 @@ export {
   DialogPortal as Portal,
   DialogOverlay as Overlay,
   DialogContent as Content,
-  DialogDescription as Description,
   DialogTitle as Title,
+  DialogTitleWarning as TitleWarning,
+  DialogDescription as Description,
+  DialogDescriptionWarning as DescriptionWarning,
   DialogClose as Close,
+  //
+  WarningProvider,
 };
 export type {
   DialogProps,
@@ -40,7 +50,9 @@ export type {
   DialogPortalProps,
   DialogOverlayProps,
   DialogContentProps,
-  DialogDescriptionProps,
   DialogTitleProps,
+  DialogTitleWarningProps,
+  DialogDescriptionProps,
+  DialogDescriptionWarningProps,
   DialogCloseProps,
 };

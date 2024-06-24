@@ -1,13 +1,17 @@
 import { forwardRef } from "react";
-import { ScopedProps, useDialogContext, usePortalContext } from "./lib/context";
+import {
+  ScopedProps,
+  useDialogContext,
+  usePortalContext,
+} from "./shared/context";
 import Presence from "@allygory/presence";
-import DialogContentModal from "./dialog-content-modal";
-import DialogContentNonModal from "./dialog-content-non-modal";
+import DialogContentModal from "./content-modal";
+import DialogContentNonModal from "./content-non-modal";
 import type {
   DialogContentImplElement,
   DialogContentImplProps,
-} from "./dialog-content-impl";
-import { CONTENT_NAME } from "./lib/constants";
+} from "./content-impl";
+import { CONTENT_NAME } from "./shared/constants";
 
 type DialogContentElement = DialogContentImplElement;
 type DialogContentProps = DialogContentImplProps & {
@@ -37,5 +41,5 @@ const DialogContent = forwardRef<DialogContentElement, DialogContentProps>(
 
 DialogContent.displayName = CONTENT_NAME;
 
-export type { DialogContentProps };
+export type { DialogContentProps, DialogContentElement };
 export default DialogContent;
