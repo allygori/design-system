@@ -1,0 +1,211 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`should generate [width|height] \`content-available\` utilities 1`] = `
+".w-allygory-context-menu-content-available {
+    width: var(--allygory-context-menu-content-available-width)
+}
+.max-w-allygory-context-menu-content-available {
+    max-width: var(--allygory-context-menu-content-available-width)
+}
+.h-allygory-context-menu-content-available {
+    height: var(--allygory-context-menu-content-available-height)
+}
+.max-h-allygory-context-menu-content-available {
+    max-height: var(--allygory-context-menu-content-available-height)
+}
+.w-allygory-dropdown-menu-content-available {
+    width: var(--allygory-dropdown-menu-content-available-width)
+}
+.max-w-allygory-dropdown-menu-content-available {
+    max-width: var(--allygory-dropdown-menu-content-available-width)
+}
+.h-allygory-dropdown-menu-content-available {
+    height: var(--allygory-dropdown-menu-content-available-height)
+}
+.max-h-allygory-dropdown-menu-content-available {
+    max-height: var(--allygory-dropdown-menu-content-available-height)
+}
+.w-allygory-hover-card-content-available {
+    width: var(--allygory-hover-card-content-available-width)
+}
+.max-w-allygory-hover-card-content-available {
+    max-width: var(--allygory-hover-card-content-available-width)
+}
+.h-allygory-hover-card-content-available {
+    height: var(--allygory-hover-card-content-available-height)
+}
+.max-h-allygory-hover-card-content-available {
+    max-height: var(--allygory-hover-card-content-available-height)
+}
+.w-allygory-menubar-content-available {
+    width: var(--allygory-menubar-content-available-width)
+}
+.max-w-allygory-menubar-content-available {
+    max-width: var(--allygory-menubar-content-available-width)
+}
+.h-allygory-menubar-content-available {
+    height: var(--allygory-menubar-content-available-height)
+}
+.max-h-allygory-menubar-content-available {
+    max-height: var(--allygory-menubar-content-available-height)
+}
+.w-allygory-popover-content-available {
+    width: var(--allygory-popover-content-available-width)
+}
+.max-w-allygory-popover-content-available {
+    max-width: var(--allygory-popover-content-available-width)
+}
+.h-allygory-popover-content-available {
+    height: var(--allygory-popover-content-available-height)
+}
+.max-h-allygory-popover-content-available {
+    max-height: var(--allygory-popover-content-available-height)
+}
+.w-allygory-select-content-available {
+    width: var(--allygory-select-content-available-width)
+}
+.max-w-allygory-select-content-available {
+    max-width: var(--allygory-select-content-available-width)
+}
+.h-allygory-select-content-available {
+    height: var(--allygory-select-content-available-height)
+}
+.max-h-allygory-select-content-available {
+    max-height: var(--allygory-select-content-available-height)
+}
+.w-allygory-tooltip-content-available {
+    width: var(--allygory-tooltip-content-available-width)
+}
+.max-w-allygory-tooltip-content-available {
+    max-width: var(--allygory-tooltip-content-available-width)
+}
+.h-allygory-tooltip-content-available {
+    height: var(--allygory-tooltip-content-available-height)
+}
+.max-h-allygory-tooltip-content-available {
+    max-height: var(--allygory-tooltip-content-available-height)
+}"
+`;
+
+exports[`should generate [width|height] \`trigger\` utilities 1`] = `
+".w-allygory-context-menu-trigger {
+    width: var(--allygory-context-menu-trigger-width)
+}
+.h-allygory-context-menu-trigger {
+    height: var(--allygory-context-menu-trigger-height)
+}
+.w-allygory-dropdown-menu-trigger {
+    width: var(--allygory-dropdown-menu-trigger-width)
+}
+.h-allygory-dropdown-menu-trigger {
+    height: var(--allygory-dropdown-menu-trigger-height)
+}
+.w-allygory-hover-card-trigger {
+    width: var(--allygory-hover-card-trigger-width)
+}
+.h-allygory-hover-card-trigger {
+    height: var(--allygory-hover-card-trigger-height)
+}
+.w-allygory-menubar-trigger {
+    width: var(--allygory-menubar-trigger-width)
+}
+.h-allygory-menubar-trigger {
+    height: var(--allygory-menubar-trigger-height)
+}
+.w-allygory-popover-trigger {
+    width: var(--allygory-popover-trigger-width)
+}
+.h-allygory-popover-trigger {
+    height: var(--allygory-popover-trigger-height)
+}
+.w-allygory-select-trigger {
+    width: var(--allygory-select-trigger-width)
+}
+.h-allygory-select-trigger {
+    height: var(--allygory-select-trigger-height)
+}
+.w-allygory-tooltip-trigger {
+    width: var(--allygory-tooltip-trigger-width)
+}
+.h-allygory-tooltip-trigger {
+    height: var(--allygory-tooltip-trigger-height)
+}"
+`;
+
+exports[`should generate [width|height] utilities 1`] = `
+".w-allygory-accordion-content {
+    width: var(--allygory-accordion-content-width)
+}
+.h-allygory-accordion-content {
+    height: var(--allygory-accordion-content-height)
+}
+.w-allygory-collapsible-content {
+    width: var(--allygory-collapsible-content-width)
+}
+.h-allygory-collapsible-content {
+    height: var(--allygory-collapsible-content-height)
+}
+.w-allygory-navigation-menu-viewport {
+    width: var(--allygory-navigation-menu-viewport-width)
+}
+.h-allygory-navigation-menu-viewport {
+    height: var(--allygory-navigation-menu-viewport-height)
+}"
+`;
+
+exports[`should generate \`content-transform-origin\` utilities 1`] = `
+".origin-allygory-context-menu {
+    transform-origin: var(--allygory-context-menu-content-transform-origin)
+}
+.origin-allygory-dropdown-menu {
+    transform-origin: var(--allygory-dropdown-menu-content-transform-origin)
+}
+.origin-allygory-hover-card {
+    transform-origin: var(--allygory-hover-card-content-transform-origin)
+}
+.origin-allygory-menubar {
+    transform-origin: var(--allygory-menubar-content-transform-origin)
+}
+.origin-allygory-popover {
+    transform-origin: var(--allygory-popover-content-transform-origin)
+}
+.origin-allygory-select {
+    transform-origin: var(--allygory-select-content-transform-origin)
+}
+.origin-allygory-tooltip {
+    transform-origin: var(--allygory-tooltip-content-transform-origin)
+}"
+`;
+
+exports[`should generate tooltip transform utilities 1`] = `
+".translate-x-allygory-toast-swipe-end-x {
+    transform: translateX(var(--allygory-toast-swipe-end-x))
+}
+.translate-y-allygory-toast-swipe-end-y {
+    transform: translateY(var(--allygory-toast-swipe-end-y))
+}
+.translate-x-allygory-toast-swipe-move-x {
+    transform: translateX(var(--allygory-toast-swipe-move-x))
+}
+.translate-y-allygory-toast-swipe-move-y {
+    transform: translateY(var(--allygory-toast-swipe-move-y))
+}"
+`;
+
+exports[`should generate value data attribute variants 1`] = `
+".allygory-state-open\\:opacity-50[data-state="open"] {
+    opacity: 0.5
+}
+.group\\/named[data-state="open"] .group-allygory-state-open\\/named\\:cursor-not-allowed {
+    cursor: not-allowed
+}
+.group[data-state="open"] .group-allygory-state-open\\:cursor-not-allowed {
+    cursor: not-allowed
+}
+.peer\\/named[data-state="open"] ~ .peer-allygory-state-open\\/named\\:cursor-not-allowed {
+    cursor: not-allowed
+}
+.peer[data-state="open"] ~ .peer-allygory-state-open\\:cursor-not-allowed {
+    cursor: not-allowed
+}"
+`;

@@ -8,7 +8,6 @@ $ npm install @allygory/dialog
 $ pnpm add @allygory/dialog
 # or
 $ yarn add @allygory/dialog
-# or
 ```
 
 ## Usage

@@ -8,7 +8,6 @@ $ npm install @allygory/use-layout-effect
 $ pnpm add @allygory/use-layout-effect
 # or
 $ yarn add @allygory/use-layout-effect
-# or
 ```
 
 ## Usage

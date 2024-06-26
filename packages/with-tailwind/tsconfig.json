@@ -1,0 +1,16 @@
+{
+  "extends": "@allygory/typescript-config/base.json",
+  "include": ["./src"],
+  "exclude": ["node_modules", "dist", "*.test.ts"],
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext", "ES2017.Object"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
+}
