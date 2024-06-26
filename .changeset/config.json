@@ -5,6 +5,8 @@
   "fixed": [],
   "linked": [],
   "access": "public",
+  "baseBranch": "release",
   "updateInternalDependencies": "patch",
-  "ignore": ["@acme/docs"]
+  "ignore": ["docs"],
+  "privatePackages": { "version": true, "tag": true }
 }

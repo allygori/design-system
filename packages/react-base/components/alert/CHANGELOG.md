@@ -1,0 +1,16 @@
+# @allygory/alert
+
+## 1.0.0
+
+### Major Changes
+
+- Add base components
+
+### Patch Changes
+
+- Updated dependencies
+  - @allygory/context@1.0.0
+  - @allygory/dialog@1.0.0
+  - @allygory/element@1.0.0
+  - @allygory/slot@1.0.0
+  - @allygory/use-compose-refs@1.0.0
