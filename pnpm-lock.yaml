@@ -659,6 +659,34 @@ importers:
         specifier: ^5.3.3
         version: 5.4.5
 
+  packages/react-base/components/visually-hidden:
+    dependencies:
+      '@allygory/element':
+        specifier: ^1.0.0
+        version: 1.0.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+        version: 18.3.1
+    devDependencies:
+      '@allygory/eslint-config':
+        specifier: workspace:*
+        version: link:../../../eslint-config
+      '@allygory/typescript-config':
+        specifier: workspace:*
+        version: link:../../../typescript-config
+      '@types/react':
+        specifier: ^18.2.61
+        version: 18.3.3
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      tsup:
+        specifier: ^8.0.2
+        version: 8.0.2(postcss@8.4.38)(typescript@5.4.5)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.4.5
+
   packages/react-base/hooks/use-callback-ref:
     dependencies:
       react:
@@ -1036,6 +1064,37 @@ packages:
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
+
+  '@allygory/element@1.0.0':
+    resolution: {integrity: sha512-fDh9q0/70kfbVy/4XtGRKLo1mNbioZhPnauAefTZJBx+bdvs7nO/ZYfMq6Fwb5FnZdcPx1nIDHkVAoS9gOgzVQ==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
+  '@allygory/slot@1.0.0':
+    resolution: {integrity: sha512-NGPcZ2XlRqj3neIly+rUjC8OUle1p2bxVr/xBBUNk6/VJ3m8tCd8Oh3z0GxFEMmY5/bQZoT8bi23d/dGTzNi+w==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+
+  '@allygory/use-compose-refs@1.0.0':
+    resolution: {integrity: sha512-nKy2spP4oiMY1hCjrYmLZPpn0VNG4pFV34qbKan5KXdNmsGyiCUA1C2BdktxHwX0TseLVxjcjfbPH7cfBCnGvA==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -6885,6 +6944,28 @@ snapshots:
   '@adobe/css-tools@4.4.0': {}
 
   '@alloc/quick-lru@5.2.0': {}
+
+  '@allygory/element@1.0.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@allygory/slot': 1.0.0(@types/react@18.3.3)(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 18.3.3
+      '@types/react-dom': 18.3.0
+
+  '@allygory/slot@1.0.0(@types/react@18.3.3)(react@18.3.1)':
+    dependencies:
+      '@allygory/use-compose-refs': 1.0.0(@types/react@18.3.3)(react@18.3.1)
+      react: 18.3.1
+    optionalDependencies:
+      '@types/react': 18.3.3
+
+  '@allygory/use-compose-refs@1.0.0(@types/react@18.3.3)(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
+    optionalDependencies:
+      '@types/react': 18.3.3
 
   '@ampproject/remapping@2.3.0':
     dependencies:
