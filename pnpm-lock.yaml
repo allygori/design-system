@@ -38,6 +38,9 @@ importers:
       '@allygory/slot':
         specifier: workspace:^
         version: link:../../packages/react-base/components/slot
+      '@allygory/toast':
+        specifier: workspace:^
+        version: link:../../packages/react-base/components/toast
       '@vanilla-extract/css':
         specifier: ^1.15.3
         version: 1.15.3
@@ -659,6 +662,70 @@ importers:
         specifier: ^5.3.3
         version: 5.4.5
 
+  packages/react-base/components/toast:
+    dependencies:
+      '@allygory/collection':
+        specifier: workspace:^
+        version: link:../collection
+      '@allygory/context':
+        specifier: workspace:^
+        version: link:../context
+      '@allygory/dismissable-layer':
+        specifier: workspace:^
+        version: link:../dismissable-layer
+      '@allygory/element':
+        specifier: workspace:^
+        version: link:../element
+      '@allygory/portal':
+        specifier: workspace:^
+        version: link:../portal
+      '@allygory/presence':
+        specifier: workspace:^
+        version: link:../presence
+      '@allygory/use-callback-ref':
+        specifier: workspace:^
+        version: link:../../hooks/use-callback-ref
+      '@allygory/use-compose-refs':
+        specifier: workspace:^
+        version: link:../../hooks/use-compose-refs
+      '@allygory/use-controllable-state':
+        specifier: workspace:^
+        version: link:../../hooks/use-controllable-state
+      '@allygory/use-next-frame':
+        specifier: workspace:^
+        version: link:../../hooks/use-next-frame
+      '@allygory/visually-hidden':
+        specifier: workspace:^
+        version: link:../visually-hidden
+      react:
+        specifier: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+        version: 18.3.1
+      react-dom:
+        specifier: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@allygory/eslint-config':
+        specifier: workspace:*
+        version: link:../../../eslint-config
+      '@allygory/typescript-config':
+        specifier: workspace:*
+        version: link:../../../typescript-config
+      '@types/react':
+        specifier: ^18.2.61
+        version: 18.3.3
+      '@types/react-dom':
+        specifier: ^18.2.19
+        version: 18.3.0
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      tsup:
+        specifier: ^8.0.2
+        version: 8.0.2(postcss@8.4.38)(typescript@5.4.5)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.4.5
+
   packages/react-base/components/visually-hidden:
     dependencies:
       '@allygory/element':
@@ -895,6 +962,37 @@ importers:
       '@types/react':
         specifier: ^18.2.61
         version: 18.3.2
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      tsup:
+        specifier: ^8.0.2
+        version: 8.0.2(postcss@8.4.38)(typescript@5.4.5)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.4.5
+
+  packages/react-base/hooks/use-next-frame:
+    dependencies:
+      '@allygory/use-callback-ref':
+        specifier: workspace:^
+        version: link:../use-callback-ref
+      '@allygory/use-layout-effect':
+        specifier: workspace:^
+        version: link:../use-layout-effect
+      react:
+        specifier: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+        version: 18.3.1
+    devDependencies:
+      '@allygory/eslint-config':
+        specifier: workspace:*
+        version: link:../../../eslint-config
+      '@allygory/typescript-config':
+        specifier: workspace:*
+        version: link:../../../typescript-config
+      '@types/react':
+        specifier: ^18.2.61
+        version: 18.3.3
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
