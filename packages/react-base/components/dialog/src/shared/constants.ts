@@ -1,4 +1,4 @@
-export const DIALOG_NAME = "Dialog";
+export const ROOT_NAME = "Dialog";
 export const TRIGGER_NAME = "DialogTrigger";
 export const PORTAL_NAME = "DialogPortal";
 export const OVERLAY_NAME = "DialogOverlay";

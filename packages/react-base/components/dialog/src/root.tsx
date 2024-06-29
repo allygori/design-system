@@ -1,11 +1,11 @@
 import { useCallback, useRef, ReactNode, FC } from "react";
 import useControllableState from "@allygory/use-controllable-state";
 import useId from "@allygory/use-id";
-import { DIALOG_NAME } from "./shared/constants";
-import { type ScopedProps, DialogProvider } from "./shared/context";
-import { type DialogContentElement } from "./shared/types";
+import { ROOT_NAME } from "./shared/constants";
+import { type ScopedProps, RootProvider } from "./shared/context";
+import type { ContentElement } from "./content";
 
-type DialogRootProps = {
+type RootProps = {
   children?: ReactNode;
   open?: boolean;
   defaultOpen?: boolean;
@@ -13,9 +13,7 @@ type DialogRootProps = {
   onOpenChange?(open: boolean): void;
 };
 
-const DialogRoot: FC<DialogRootProps> = (
-  props: ScopedProps<DialogRootProps>,
-) => {
+const Root: FC<RootProps> = (props: ScopedProps<RootProps>) => {
   const {
     __scopeDialog,
     children,
@@ -26,7 +24,7 @@ const DialogRoot: FC<DialogRootProps> = (
   } = props;
 
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const contentRef = useRef<DialogContentElement>(null);
+  const contentRef = useRef<ContentElement>(null);
   const [open = false, setOpen] = useControllableState({
     prop: openProp,
     defaultProp: defaultOpen,
@@ -34,7 +32,7 @@ const DialogRoot: FC<DialogRootProps> = (
   });
 
   return (
-    <DialogProvider
+    <RootProvider
       scope={__scopeDialog}
       triggerRef={triggerRef}
       contentRef={contentRef}
@@ -44,17 +42,14 @@ const DialogRoot: FC<DialogRootProps> = (
       open={open}
       modal={modal}
       onOpenChange={setOpen}
-      onOpenToggle={useCallback(
-        () => setOpen((prevOpen) => !prevOpen),
-        [setOpen],
-      )}
+      onOpenToggle={useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen])}
     >
       {children}
-    </DialogProvider>
+    </RootProvider>
   );
 };
 
-DialogRoot.displayName = DIALOG_NAME;
+Root.displayName = ROOT_NAME;
 
-export type { DialogRootProps };
-export default DialogRoot;
+export type { RootProps };
+export default Root;

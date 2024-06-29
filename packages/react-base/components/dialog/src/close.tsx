@@ -1,30 +1,28 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 import Element, { composeEventHandlers } from "@allygory/element";
-import { ScopedProps, useDialogContext } from "./shared/context";
 import { CLOSE_NAME } from "./shared/constants";
+import { type ScopedProps, useRootContext } from "./shared/context";
 
-type DialogCloseElement = ElementRef<typeof Element.button>;
-type DialogCloseProps = ComponentPropsWithoutRef<typeof Element.button>;
+type CloseElement = ElementRef<typeof Element.button>;
+type CloseProps = ComponentPropsWithoutRef<typeof Element.button>;
 
-const DialogClose = forwardRef<DialogCloseElement, DialogCloseProps>(
-  (props: ScopedProps<DialogCloseProps>, forwardedRef) => {
+const Close = forwardRef<CloseElement, CloseProps>(
+  (props: ScopedProps<CloseProps>, forwardedRef) => {
     const { __scopeDialog, ...closeProps } = props;
-    const context = useDialogContext(CLOSE_NAME, __scopeDialog);
+    const context = useRootContext(CLOSE_NAME, __scopeDialog);
 
     return (
       <Element.button
         type="button"
         {...closeProps}
         ref={forwardedRef}
-        onClick={composeEventHandlers(props.onClick, () =>
-          context.onOpenChange(false),
-        )}
+        onClick={composeEventHandlers(props.onClick, () => context.onOpenChange(false))}
       />
     );
   },
 );
 
-DialogClose.displayName = CLOSE_NAME;
+Close.displayName = CLOSE_NAME;
 
-export type { DialogCloseProps };
-export default DialogClose;
+export type { CloseElement, CloseProps };
+export default Close;

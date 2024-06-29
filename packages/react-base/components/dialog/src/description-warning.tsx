@@ -1,14 +1,14 @@
 import { FC, RefObject, useEffect } from "react";
 import { DESCRIPTION_WARNING_NAME } from "./shared/constants";
 import { useWarningContext } from "./shared/context";
-import type { DialogContentElement } from "./content";
+import type { ContentElement } from "./content";
 
-type DialogDescriptionWarningProps = {
-  contentRef: RefObject<DialogContentElement>;
+type DescriptionWarningProps = {
+  contentRef: RefObject<ContentElement>;
   descriptionId?: string;
 };
 
-const DialogDescriptionWarning: FC<DialogDescriptionWarningProps> = ({
+const DescriptionWarning: FC<DescriptionWarningProps> = ({
   contentRef,
   descriptionId,
 }) => {
@@ -30,7 +30,7 @@ const DialogDescriptionWarning: FC<DialogDescriptionWarningProps> = ({
   return null;
 };
 
-DialogDescriptionWarning.displayName = DESCRIPTION_WARNING_NAME;
+DescriptionWarning.displayName = DESCRIPTION_WARNING_NAME;
 
-export type { DialogDescriptionWarningProps };
-export default DialogDescriptionWarning;
+export type { DescriptionWarningProps };
+export default DescriptionWarning;

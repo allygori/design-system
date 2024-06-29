@@ -1,10 +1,10 @@
 import { FC, useEffect } from "react";
-import { useWarningContext } from "./shared/context";
 import { TITLE_WARNING_NAME } from "./shared/constants";
+import { useWarningContext } from "./shared/context";
 
-type DialogTitleWarningProps = { titleId?: string };
+type TitleWarningProps = { titleId?: string };
 
-const DialogTitleWarning: FC<DialogTitleWarningProps> = ({ titleId }) => {
+const TitleWarning: FC<TitleWarningProps> = ({ titleId }) => {
   const titleWarningContext = useWarningContext(TITLE_WARNING_NAME);
 
   const MESSAGE = `\`${titleWarningContext.contentName}\` requires a \`${titleWarningContext.titleName}\` for the component to be accessible for screen reader users.
@@ -23,5 +23,5 @@ For more information, see docs`;
   return null;
 };
 
-export type { DialogTitleWarningProps };
-export default DialogTitleWarning;
+export type { TitleWarningProps };
+export default TitleWarning;

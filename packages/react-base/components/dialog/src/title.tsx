@@ -1,23 +1,20 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 import Element from "@allygory/element";
-import { ScopedProps, useDialogContext } from "./shared/context";
+import { TITLE_NAME } from "./shared/constants";
+import { type ScopedProps, useRootContext } from "./shared/context";
 
-const DISPLAY_NAME = "DialogTitle";
+type TitleElement = ElementRef<typeof Element.h2>;
+type TitleProps = ComponentPropsWithoutRef<typeof Element.h2>;
 
-type DialogTitleElement = ElementRef<typeof Element.h2>;
-type DialogTitleProps = ComponentPropsWithoutRef<typeof Element.h2>;
-
-const DialogTitle = forwardRef<DialogTitleElement, DialogTitleProps>(
-  (props: ScopedProps<DialogTitleProps>, forwardedRef) => {
+const Title = forwardRef<TitleElement, TitleProps>(
+  (props: ScopedProps<TitleProps>, forwardedRef) => {
     const { __scopeDialog, ...titleProps } = props;
-    const context = useDialogContext(DISPLAY_NAME, __scopeDialog);
-    return (
-      <Element.h2 id={context.titleId} {...titleProps} ref={forwardedRef} />
-    );
+    const context = useRootContext(TITLE_NAME, __scopeDialog);
+    return <Element.h2 id={context.titleId} {...titleProps} ref={forwardedRef} />;
   },
 );
 
-DialogTitle.displayName = DISPLAY_NAME;
+Title.displayName = TITLE_NAME;
 
-export type { DialogTitleProps };
-export default DialogTitle;
+export type { TitleElement, TitleProps };
+export default Title;

@@ -1,20 +1,13 @@
 import { forwardRef } from "react";
-import {
-  ScopedProps,
-  useDialogContext,
-  usePortalContext,
-} from "./shared/context";
 import Presence from "@allygory/presence";
-import DialogContentModal from "./content-modal";
-import DialogContentNonModal from "./content-non-modal";
-import type {
-  DialogContentImplElement,
-  DialogContentImplProps,
-} from "./content-impl";
 import { CONTENT_NAME } from "./shared/constants";
+import { type ScopedProps, useRootContext, usePortalContext } from "./shared/context";
+import ContentModal from "./content-modal";
+import ContentNonModal from "./content-non-modal";
+import type { ContentImplElement, ContentImplProps } from "./content-impl";
 
-type DialogContentElement = DialogContentImplElement;
-type DialogContentProps = DialogContentImplProps & {
+type ContentElement = ContentImplElement;
+type ContentProps = ContentImplProps & {
   /**
    * Used to force mounting when more control is needed. Useful when
    * controlling animation with React animation libraries.
@@ -22,17 +15,17 @@ type DialogContentProps = DialogContentImplProps & {
   forceMount?: true;
 };
 
-const DialogContent = forwardRef<DialogContentElement, DialogContentProps>(
-  (props: ScopedProps<DialogContentProps>, forwardedRef) => {
+const DialogContent = forwardRef<ContentElement, ContentProps>(
+  (props: ScopedProps<ContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopeDialog);
     const { forceMount = portalContext.forceMount, ...contentProps } = props;
-    const context = useDialogContext(CONTENT_NAME, props.__scopeDialog);
+    const context = useRootContext(CONTENT_NAME, props.__scopeDialog);
     return (
       <Presence present={forceMount || context.open}>
         {context.modal ? (
-          <DialogContentModal {...contentProps} ref={forwardedRef} />
+          <ContentModal {...contentProps} ref={forwardedRef} />
         ) : (
-          <DialogContentNonModal {...contentProps} ref={forwardedRef} />
+          <ContentNonModal {...contentProps} ref={forwardedRef} />
         )}
       </Presence>
     );
@@ -41,5 +34,5 @@ const DialogContent = forwardRef<DialogContentElement, DialogContentProps>(
 
 DialogContent.displayName = CONTENT_NAME;
 
-export type { DialogContentProps, DialogContentElement };
+export type { ContentElement, ContentProps };
 export default DialogContent;
