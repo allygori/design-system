@@ -1,4 +1,4 @@
-import { PointerEvent } from "react";
+import type { PointerEvent } from "react";
 import type { ToastElement } from "../toast";
 
 export type SwipeEvent = {

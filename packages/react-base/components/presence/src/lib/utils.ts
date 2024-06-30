@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type -- ignore */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access -- ignore */
+/* eslint-disable @typescript-eslint/no-explicit-any -- ignore */
+/* eslint-disable @typescript-eslint/no-unsafe-return -- ignore */
+/* eslint-disable @typescript-eslint/unbound-method -- ignore */
 export const getAnimationName = (styles?: CSSStyleDeclaration) => {
   return styles?.animationName || "none";
 };

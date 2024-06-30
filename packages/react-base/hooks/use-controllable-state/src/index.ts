@@ -1,11 +1,5 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-  useRef,
-} from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import useCallbackRef from "@allygory/use-callback-ref";
 
 type UseControllableStateParams<T> = {
@@ -15,11 +9,13 @@ type UseControllableStateParams<T> = {
 };
 
 type SetStateFn<T> = (prevState?: T) => T;
+type State<T> = [T | undefined, Dispatch<SetStateAction<T | undefined>>];
 
-function useControlledState<T>({
+const useControlledState = <T>({
   defaultProp,
   onChange,
-}: Omit<UseControllableStateParams<T>, "prop">) {
+}: Omit<UseControllableStateParams<T>, "prop">): State<T> => {
+  // eslint-disable-next-line react/hook-use-state -- ignore
   const uncontrolledState = useState<T | undefined>(defaultProp);
   const [value] = uncontrolledState;
   const prevValueRef = useRef(value);
@@ -33,13 +29,13 @@ function useControlledState<T>({
   }, [value, prevValueRef, handleChange]);
 
   return uncontrolledState;
-}
+};
 
-function useControllableState<T>({
+const useControllableState = <T>({
   prop,
   defaultProp,
-  onChange = () => {},
-}: UseControllableStateParams<T>) {
+  onChange = () => null,
+}: UseControllableStateParams<T>): State<T> => {
   const [uncontrolledProp, setUncontrolledProp] = useControlledState({
     defaultProp,
     onChange,
@@ -52,9 +48,8 @@ function useControllableState<T>({
     (nextValue) => {
       if (isControlled) {
         const setter = nextValue as SetStateFn<T>;
-        const value =
-          typeof nextValue === "function" ? setter(prop) : nextValue;
-        if (value !== prop) handleChange(value as T);
+        const val = typeof nextValue === "function" ? setter(prop) : nextValue;
+        if (val !== prop) handleChange(val as T);
       } else {
         setUncontrolledProp(nextValue);
       }
@@ -63,6 +58,6 @@ function useControllableState<T>({
   );
 
   return [value, setValue] as const;
-}
+};
 
 export default useControllableState;

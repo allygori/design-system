@@ -1,8 +1,9 @@
+import type { ReactNode } from "react";
 import { useEffect } from "react";
 
 let count = 0;
 
-const createFocusGuard = () => {
+const createFocusGuard = (): HTMLSpanElement => {
   const element = document.createElement("span");
   element.setAttribute(`miru-focus-guard`, "");
   element.tabIndex = 0;
@@ -12,25 +13,27 @@ const createFocusGuard = () => {
   return element;
 };
 
-const useFocusGuards = () => {
+const useFocusGuards = (): void => {
   useEffect(() => {
     const edgeGuards = document.querySelectorAll(`[miru-focus-guard]`);
 
     document.body.insertAdjacentElement(
       "afterbegin",
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- ignore
       edgeGuards[0] ?? createFocusGuard(),
     );
     document.body.insertAdjacentElement(
       "beforeend",
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- ignore
       edgeGuards[1] ?? createFocusGuard(),
     );
     count++;
 
     return () => {
       if (count === 1) {
-        document
-          .querySelectorAll(`[miru-focus-guard]`)
-          .forEach((node) => node.remove());
+        document.querySelectorAll(`[miru-focus-guard]`).forEach((node) => {
+          node.remove();
+        });
       }
 
       count--;
@@ -38,7 +41,7 @@ const useFocusGuards = () => {
   }, []);
 };
 
-const FocusGuards = (props: any) => {
+const FocusGuards = (props: { children: ReactNode }): ReactNode => {
   useFocusGuards();
 
   return props.children;

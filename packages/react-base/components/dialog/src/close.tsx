@@ -1,4 +1,5 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef } from "react";
 import Element, { composeEventHandlers } from "@allygory/element";
 import { CLOSE_NAME } from "./shared/constants";
 import { type ScopedProps, useRootContext } from "./shared/context";
@@ -16,7 +17,9 @@ const Close = forwardRef<CloseElement, CloseProps>(
         type="button"
         {...closeProps}
         ref={forwardedRef}
-        onClick={composeEventHandlers(props.onClick, () => context.onOpenChange(false))}
+        onClick={composeEventHandlers(props.onClick, () => {
+          context.onOpenChange(false);
+        })}
       />
     );
   },

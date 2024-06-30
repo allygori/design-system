@@ -1,3 +1,3 @@
-export const getState = (open?: boolean) => {
+export const getState = (open?: boolean): string => {
   return open ? "open" : "closed";
 };

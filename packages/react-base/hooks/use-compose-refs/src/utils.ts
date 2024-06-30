@@ -1,5 +1,5 @@
-import { MutableRefObject } from "react";
-import { PossibleRef } from "./types";
+import type { MutableRefObject } from "react";
+import type { PossibleRef } from "./types";
 
 /**
  * Set a given ref to a given value
@@ -18,7 +18,11 @@ const setRef = <T>(ref: PossibleRef<T>, value: T): void => {
  * Accepts callback refs and RefObject(s)
  */
 const composeRefs = <T>(...refs: PossibleRef<T>[]) => {
-  return (node: T) => refs.forEach((ref) => setRef(ref, node));
+  return (node: T) => {
+    refs.forEach((ref) => {
+      setRef(ref, node);
+    });
+  };
 };
 
 export { composeRefs };

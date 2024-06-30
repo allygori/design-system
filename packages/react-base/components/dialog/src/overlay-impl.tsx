@@ -1,4 +1,5 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef } from "react";
 import { RemoveScroll } from "react-remove-scroll";
 import Slot from "@allygory/slot";
 import Element from "@allygory/element";
@@ -17,7 +18,7 @@ const OverlayImpl = forwardRef<OverlayImplElement, OverlayImplProps>(
     return (
       // Make sure `Content` is scrollable even when it doesn't live inside `RemoveScroll`
       // ie. when `Overlay` and `Content` are siblings
-      <RemoveScroll as={Slot} allowPinchZoom shards={[context.contentRef]}>
+      <RemoveScroll allowPinchZoom as={Slot} shards={[context.contentRef]}>
         <Element.div
           data-state={getState(context.open)}
           {...overlayProps}

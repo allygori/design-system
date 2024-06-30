@@ -1,3 +1,4 @@
+/* eslint-disable tsdoc/syntax -- ignore */
 import { flushSync } from "react-dom";
 
 const composeEventHandlers = <E>(
@@ -56,7 +57,7 @@ const composeEventHandlers = <E>(
 const dispatchDiscreteCustomEvent = <E extends CustomEvent>(
   target: E["target"],
   event: E,
-) => {
+): void => {
   if (target) flushSync(() => target.dispatchEvent(event));
 };
 

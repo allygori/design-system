@@ -16,7 +16,7 @@ type ToastElement = ToastImplElement;
 type ToastProps = Omit<ToastImplProps, keyof ToastImplPrivateProps> & {
   open?: boolean;
   defaultOpen?: boolean;
-  onOpenChange?(open: boolean): void;
+  onOpenChange?: (open: boolean) => void;
   /**
    * Used to force mounting when more control is needed. Useful when
    * controlling animation with React animation libraries.
@@ -45,11 +45,31 @@ const Toast = forwardRef<ToastElement, ToastProps>(
           open={open}
           {...toastProps}
           ref={forwardedRef}
-          onClose={() => setOpen(false)}
+          onClose={() => {
+            setOpen(false);
+          }}
           onPause={useCallbackRef(props.onPause)}
           onResume={useCallbackRef(props.onResume)}
-          onSwipeStart={composeEventHandlers(props.onSwipeStart, (event) => {
-            event.currentTarget.setAttribute("data-swipe", "start");
+          onSwipeCancel={composeEventHandlers(props.onSwipeCancel, (event) => {
+            event.currentTarget.setAttribute("data-swipe", "cancel");
+            event.currentTarget.style.removeProperty("--allygory-toast-swipe-move-x");
+            event.currentTarget.style.removeProperty("--allygory-toast-swipe-move-y");
+            event.currentTarget.style.removeProperty("--allygory-toast-swipe-end-x");
+            event.currentTarget.style.removeProperty("--allygory-toast-swipe-end-y");
+          })}
+          onSwipeEnd={composeEventHandlers(props.onSwipeEnd, (event) => {
+            const { x, y } = event.detail.delta;
+            event.currentTarget.setAttribute("data-swipe", "end");
+            event.currentTarget.style.removeProperty("--allygory-toast-swipe-move-x");
+            event.currentTarget.style.removeProperty("--allygory-toast-swipe-move-y");
+            event.currentTarget.style.setProperty(
+              "--allygory-toast-swipe-end-x",
+              `${x}px`,
+            );
+            event.currentTarget.style.setProperty(
+              "--allygory-toast-swipe-end-y",
+              `${y}px`,
+            );
           })}
           onSwipeMove={composeEventHandlers(props.onSwipeMove, (event) => {
             const { x, y } = event.detail.delta;
@@ -63,38 +83,8 @@ const Toast = forwardRef<ToastElement, ToastProps>(
               `${y}px`,
             );
           })}
-          onSwipeCancel={composeEventHandlers(props.onSwipeCancel, (event) => {
-            event.currentTarget.setAttribute("data-swipe", "cancel");
-            event.currentTarget.style.removeProperty(
-              "--allygory-toast-swipe-move-x",
-            );
-            event.currentTarget.style.removeProperty(
-              "--allygory-toast-swipe-move-y",
-            );
-            event.currentTarget.style.removeProperty(
-              "--allygory-toast-swipe-end-x",
-            );
-            event.currentTarget.style.removeProperty(
-              "--allygory-toast-swipe-end-y",
-            );
-          })}
-          onSwipeEnd={composeEventHandlers(props.onSwipeEnd, (event) => {
-            const { x, y } = event.detail.delta;
-            event.currentTarget.setAttribute("data-swipe", "end");
-            event.currentTarget.style.removeProperty(
-              "--allygory-toast-swipe-move-x",
-            );
-            event.currentTarget.style.removeProperty(
-              "--allygory-toast-swipe-move-y",
-            );
-            event.currentTarget.style.setProperty(
-              "--allygory-toast-swipe-end-x",
-              `${x}px`,
-            );
-            event.currentTarget.style.setProperty(
-              "--allygory-toast-swipe-end-y",
-              `${y}px`,
-            );
+          onSwipeStart={composeEventHandlers(props.onSwipeStart, (event) => {
+            event.currentTarget.setAttribute("data-swipe", "start");
           })}
         />
       </Presence>

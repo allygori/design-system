@@ -1,12 +1,11 @@
 import type { ReactNode } from "react";
-import { Fragment } from "react";
 
 type Props = {
   children: ReactNode;
 };
 
-const Slottable = ({ children }: Props) => {
-  return <Fragment>{children}</Fragment>;
+const Slottable = ({ children }: Props): JSX.Element => {
+  return <>{children}</>;
 };
 
 export default Slottable;

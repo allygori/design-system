@@ -1,4 +1,4 @@
-const getState = (open: boolean) => {
+const getState = (open: boolean): string => {
   return open ? "open" : "closed";
 };
 

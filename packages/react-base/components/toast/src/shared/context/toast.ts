@@ -1,4 +1,4 @@
-import { MutableRefObject } from "react";
+import type { MutableRefObject } from "react";
 import createCollection from "@allygory/collection";
 import { createContextScope, type Scope } from "@allygory/context";
 import { PROVIDER_NAME, TOAST_NAME } from "../constants";
@@ -14,9 +14,9 @@ type ToastProviderContextValue = {
   swipeThreshold: number;
   toastCount: number;
   viewport: ToastViewportElement | null;
-  onViewportChange(viewport: ToastViewportElement): void;
-  onToastAdd(): void;
-  onToastRemove(): void;
+  onViewportChange: (viewport: ToastViewportElement) => void;
+  onToastAdd: () => void;
+  onToastRemove: () => void;
   isFocusedToastEscapeKeyDownRef: MutableRefObject<boolean>;
   isClosePausedRef: MutableRefObject<boolean>;
 };

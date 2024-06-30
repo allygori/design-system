@@ -1,13 +1,5 @@
-import {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  KeyboardEvent,
-  forwardRef,
-  useCallback,
-  useEffect,
-  useState,
-  useRef,
-} from "react";
+import type { ComponentPropsWithoutRef, ElementRef, KeyboardEvent } from "react";
+import { forwardRef, useCallback, useEffect, useState, useRef } from "react";
 import Element from "@allygory/element";
 import useCallbackRef from "@allygory/use-callback-ref";
 import useComposedRefs from "@allygory/use-compose-refs";
@@ -24,7 +16,7 @@ const AUTOFOCUS_ON_MOUNT = "focusScope.autoFocusOnMount";
 const AUTOFOCUS_ON_UNMOUNT = "focusScope.autoFocusOnUnmount";
 const EVENT_OPTIONS = { bubbles: false, cancelable: true };
 
-type FocusableTarget = HTMLElement | { focus(): void };
+// type FocusableTarget = HTMLElement | { focus: () => void };
 
 const DISPLAY_NAME = "FocusScope";
 const focusScopesStack = createFocusScopesStack();
@@ -59,7 +51,7 @@ type FocusScopeProps = ComponentPropsWithoutRef<typeof Element.div> & {
 };
 
 const FocusScope = forwardRef<FocusScopeElement, FocusScopeProps>(
-  (props, forwardRef) => {
+  (props, forwardedRef) => {
     const {
       loop = false,
       trapped = false,
@@ -72,9 +64,9 @@ const FocusScope = forwardRef<FocusScopeElement, FocusScopeProps>(
     const onMountAutoFocus = useCallbackRef(onMountAutoFocusProp);
     const onUnmountAutoFocus = useCallbackRef(onUnmountAutoFocusProp);
     const lastFocusedElementRef = useRef<HTMLElement | null>(null);
-    const composedRefs = useComposedRefs(forwardRef, (node) =>
-      setContainer(node),
-    );
+    const composedRefs = useComposedRefs(forwardedRef, (node) => {
+      setContainer(node);
+    });
 
     const focusScope = useRef({
       paused: false,
@@ -88,7 +80,7 @@ const FocusScope = forwardRef<FocusScopeElement, FocusScopeProps>(
 
     useEffect(() => {
       if (!trapped) {
-        const handleFocusIn = (event: FocusEvent) => {
+        const handleFocusIn = (event: FocusEvent): void => {
           if (focusScope.paused || !container) return;
           const target = event.target as HTMLElement | null;
           if (container.contains(target)) {
@@ -98,7 +90,7 @@ const FocusScope = forwardRef<FocusScopeElement, FocusScopeProps>(
           }
         };
 
-        const handleFocusOut = (event: FocusEvent) => {
+        const handleFocusOut = (event: FocusEvent): void => {
           if (focusScope.paused || !container) return;
           const relatedTarget = event.relatedTarget as HTMLElement | null;
 
@@ -124,7 +116,7 @@ const FocusScope = forwardRef<FocusScopeElement, FocusScopeProps>(
         // When the focused element gets removed from the DOM, browsers move focus
         // back to the document.body. In this case, we move focus to the container
         // to keep focus trapped correctly.
-        const handleMutations = (mutations: MutationRecord[]) => {
+        const handleMutations = (mutations: MutationRecord[]): void => {
           const focusedElement = document.activeElement as HTMLElement | null;
           if (focusedElement !== document.body) return;
           for (const mutation of mutations) {
@@ -152,11 +144,8 @@ const FocusScope = forwardRef<FocusScopeElement, FocusScopeProps>(
     useEffect(() => {
       if (container) {
         focusScopesStack.add(focusScope);
-        const previouslyFocusedElement =
-          document.activeElement as HTMLElement | null;
-        const hasFocusedCandidate = container.contains(
-          previouslyFocusedElement,
-        );
+        const previouslyFocusedElement = document.activeElement as HTMLElement | null;
+        const hasFocusedCandidate = container.contains(previouslyFocusedElement);
 
         if (!hasFocusedCandidate) {
           const mountEvent = new CustomEvent(AUTOFOCUS_ON_MOUNT, EVENT_OPTIONS);
@@ -179,14 +168,8 @@ const FocusScope = forwardRef<FocusScopeElement, FocusScopeProps>(
           // We need to delay the focus a little to get around it for now.
           // See: https://github.com/facebook/react/issues/17894
           setTimeout(() => {
-            const unmountEvent = new CustomEvent(
-              AUTOFOCUS_ON_UNMOUNT,
-              EVENT_OPTIONS,
-            );
-            container.addEventListener(
-              AUTOFOCUS_ON_UNMOUNT,
-              onUnmountAutoFocus,
-            );
+            const unmountEvent = new CustomEvent(AUTOFOCUS_ON_UNMOUNT, EVENT_OPTIONS);
+            container.addEventListener(AUTOFOCUS_ON_UNMOUNT, onUnmountAutoFocus);
             container.dispatchEvent(unmountEvent);
             if (!unmountEvent.defaultPrevented) {
               focus(previouslyFocusedElement ?? document.body, {
@@ -194,10 +177,7 @@ const FocusScope = forwardRef<FocusScopeElement, FocusScopeProps>(
               });
             }
             // we need to remove the listener after we `dispatchEvent`
-            container.removeEventListener(
-              AUTOFOCUS_ON_UNMOUNT,
-              onUnmountAutoFocus,
-            );
+            container.removeEventListener(AUTOFOCUS_ON_UNMOUNT, onUnmountAutoFocus);
 
             focusScopesStack.remove(focusScope);
           }, 0);
@@ -212,28 +192,23 @@ const FocusScope = forwardRef<FocusScopeElement, FocusScopeProps>(
         if (focusScope.paused) return;
 
         const isTabKey =
-          event.key === "Tab" &&
-          !event.altKey &&
-          !event.ctrlKey &&
-          !event.metaKey;
+          event.key === "Tab" && !event.altKey && !event.ctrlKey && !event.metaKey;
         const focusedElement = document.activeElement as HTMLElement | null;
 
         if (isTabKey && focusedElement) {
-          const container = event.currentTarget as HTMLElement;
-          const [first, last] = getTabbableEdges(container);
+          const cont = event.currentTarget as HTMLElement;
+          const [first, last] = getTabbableEdges(cont);
           const hasTabbableElementsInside = first && last;
 
           // we can only wrap focus if we have tabbable edges
           if (!hasTabbableElementsInside) {
-            if (focusedElement === container) event.preventDefault();
-          } else {
-            if (!event.shiftKey && focusedElement === last) {
-              event.preventDefault();
-              if (loop) focus(first, { select: true });
-            } else if (event.shiftKey && focusedElement === first) {
-              event.preventDefault();
-              if (loop) focus(last, { select: true });
-            }
+            if (focusedElement === cont) event.preventDefault();
+          } else if (!event.shiftKey && focusedElement === last) {
+            event.preventDefault();
+            if (loop) focus(first, { select: true });
+          } else if (event.shiftKey && focusedElement === first) {
+            event.preventDefault();
+            if (loop) focus(last, { select: true });
           }
         }
       },

@@ -1,7 +1,6 @@
 import { useLayoutEffect as reactUseLayoutEffect } from "react";
 
-const useLayoutEffect = Boolean(globalThis?.document)
-  ? reactUseLayoutEffect
-  : () => {};
+// eslint-disable-next-line no-extra-boolean-cast -- ignore
+const useLayoutEffect = Boolean(globalThis.document) ? reactUseLayoutEffect : () => null;
 
 export default useLayoutEffect;

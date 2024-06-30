@@ -16,7 +16,9 @@ module.exports = {
     "@vercel/style-guide/eslint/browser",
     "@vercel/style-guide/eslint/typescript",
     "@vercel/style-guide/eslint/react",
-    "prettier",
+    // "@vercel/style-guide/prettier",
+
+    // "prettier",
   ].map(require.resolve),
   parserOptions: {
     project,
@@ -32,13 +34,40 @@ module.exports = {
       },
     },
   },
-  ignorePatterns: ["node_modules/", "dist/", ".eslintrc.js", "**/*.css"],
+  ignorePatterns: [
+    "node_modules/",
+    "dist/",
+    ".turbo/",
+    ".temp/",
+    ".trash/",
+    ".eslintrc.js",
+    "tsup.config.ts",
+    "**/*.css",
+  ],
   // add rules configurations here
   rules: {
     "import/no-default-export": "off",
-    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
+    // react-jsx
+    "react/jsx-sort-props": [
+      "warn",
+      {
+        callbacksLast: true,
+        shorthandFirst: true,
+        shorthandLast: false,
+        ignoreCase: false,
+        noSortAlphabetically: false,
+        reservedFirst: true,
+      },
+    ],
+    "react/jsx-pascal-case": [
+      "warn",
+      {
+        allowNamespace: true,
+      },
+    ],
     "react/function-component-definition": [
-      "enabled",
+      1,
       {
         namedComponents: "arrow-function",
         unnamedComponents: "function-expression",

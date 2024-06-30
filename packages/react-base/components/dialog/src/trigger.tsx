@@ -1,4 +1,5 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef } from "react";
 import Element, { composeEventHandlers } from "@allygory/element";
 import useComposedRefs from "@allygory/use-compose-refs";
 import { TRIGGER_NAME } from "./shared/constants";
@@ -16,14 +17,16 @@ const Trigger = forwardRef<TriggerElement, TriggerProps>(
 
     return (
       <Element.button
-        type="button"
-        aria-haspopup="dialog"
-        aria-expanded={context.open}
         aria-controls={context.contentId}
+        aria-expanded={context.open}
+        aria-haspopup="dialog"
         data-state={getState(context.open)}
+        type="button"
         {...triggerProps}
         ref={composedTriggerRef}
-        onClick={composeEventHandlers(props.onClick, context.onOpenToggle)}
+        onClick={composeEventHandlers(props.onClick, () => {
+          context.onOpenToggle();
+        })}
       />
     );
   },

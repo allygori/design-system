@@ -1,5 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import { ReactNode, isValidElement, type ReactElement } from "react";
+import type { ReactNode, ReactElement } from "react";
+import { isValidElement } from "react";
 import Slottable from "./slottable";
 
 type AnyProps = Record<string, any>;
@@ -51,9 +58,7 @@ const mergeProps = (slotProps: AnyProps, childProps: AnyProps) => {
     else if (propName === "style") {
       overrideProps[propName] = { ...slotPropValue, ...childPropValue };
     } else if (propName === "className") {
-      overrideProps[propName] = [slotPropValue, childPropValue]
-        .filter(Boolean)
-        .join(" ");
+      overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(" ");
     }
   }
 

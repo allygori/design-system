@@ -1,8 +1,9 @@
-import { ElementRef, forwardRef } from "react";
+import type { ElementRef } from "react";
+import { forwardRef } from "react";
 import * as Dialog from "@allygory/dialog";
 import useComposeRefs from "@allygory/use-compose-refs";
 import { CANCEL_NAME } from "./shared/constants";
-import { ScopedProps } from "./shared/types";
+import { type ScopedProps } from "./shared/types";
 import { useAlertContentContext, useDialogScope } from "./shared/context";
 
 type AlertCancelElement = ElementRef<typeof Dialog.Close>;

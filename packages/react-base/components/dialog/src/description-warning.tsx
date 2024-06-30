@@ -1,4 +1,5 @@
-import { FC, RefObject, useEffect } from "react";
+import type { FC, RefObject } from "react";
+import { useEffect } from "react";
 import { DESCRIPTION_WARNING_NAME } from "./shared/constants";
 import { useWarningContext } from "./shared/context";
 import type { ContentElement } from "./content";
@@ -22,6 +23,7 @@ const DescriptionWarning: FC<DescriptionWarningProps> = ({
     if (descriptionId && describedById) {
       const hasDescription = document.getElementById(descriptionId);
       if (!hasDescription) {
+        // eslint-disable-next-line no-console -- debug purpose
         console.warn(MESSAGE);
       }
     }

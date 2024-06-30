@@ -1,11 +1,7 @@
-import {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  forwardRef,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
+/* eslint-disable tsdoc/syntax -- ignore */
+/* eslint-disable @typescript-eslint/no-non-null-assertion -- ignore */
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef, useCallback, useEffect, useRef } from "react";
 import Element from "@allygory/element";
 import * as DismissableLayer from "@allygory/dismissable-layer";
 import useComposeRefs from "@allygory/use-compose-refs";
@@ -16,8 +12,8 @@ import {
   VIEWPORT_RESUME,
 } from "./shared/constants";
 import {
+  type ScopedProps,
   Collection,
-  ScopedProps,
   useCollection,
   useToastProviderContext,
 } from "./shared/context";
@@ -53,22 +49,16 @@ const ToastViewport = forwardRef<ToastViewportElement, ToastViewportProps>(
     const headFocusProxyRef = useRef<FocusProxyElement>(null);
     const tailFocusProxyRef = useRef<FocusProxyElement>(null);
     const ref = useRef<ToastViewportElement>(null);
-    const composedRefs = useComposeRefs(
-      forwardedRef,
-      ref,
-      context.onViewportChange,
-    );
-    const hotkeyLabel = hotkey
-      .join("+")
-      .replace(/Key/g, "")
-      .replace(/Digit/g, "");
+    const composedRefs = useComposeRefs(forwardedRef, ref, context.onViewportChange);
+    const hotkeyLabel = hotkey.join("+").replace(/Key/g, "").replace(/Digit/g, "");
     const hasToasts = context.toastCount > 0;
 
     useEffect(() => {
-      const handleKeyDown = (event: KeyboardEvent) => {
+      const handleKeyDown = (event: KeyboardEvent): void => {
         // we use `event.code` as it is consistent regardless of meta keys that were pressed.
         // for example, `event.key` for `Control+Alt+t` is `†` and `t !== †`
         const isHotkeyPressed = hotkey.every(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any -- ignore
           (key) => (event as any)[key] || event.code === key,
         );
         if (isHotkeyPressed) {
@@ -77,7 +67,9 @@ const ToastViewport = forwardRef<ToastViewportElement, ToastViewportProps>(
       };
 
       document.addEventListener("keydown", handleKeyDown);
-      return () => document.removeEventListener("keydown", handleKeyDown);
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
     }, [hotkey]);
 
     useEffect(() => {
@@ -85,7 +77,7 @@ const ToastViewport = forwardRef<ToastViewportElement, ToastViewportProps>(
       const viewport = ref.current;
 
       if (hasToasts && wrapper && viewport) {
-        const handlePause = () => {
+        const handlePause = (): void => {
           if (!context.isClosePausedRef.current) {
             const pauseEvent = new CustomEvent(VIEWPORT_PAUSE);
             viewport.dispatchEvent(pauseEvent);
@@ -93,7 +85,7 @@ const ToastViewport = forwardRef<ToastViewportElement, ToastViewportProps>(
           }
         };
 
-        const handleResume = () => {
+        const handleResume = (): void => {
           if (context.isClosePausedRef.current) {
             const resumeEvent = new CustomEvent(VIEWPORT_RESUME);
             viewport.dispatchEvent(resumeEvent);
@@ -101,14 +93,14 @@ const ToastViewport = forwardRef<ToastViewportElement, ToastViewportProps>(
           }
         };
 
-        const handleFocusOutResume = (event: FocusEvent) => {
+        const handleFocusOutResume = (event: FocusEvent): void => {
           const isFocusMovingOutside = !wrapper.contains(
             event.relatedTarget as HTMLElement,
           );
           if (isFocusMovingOutside) handleResume();
         };
 
-        const handlePointerLeaveResume = () => {
+        const handlePointerLeaveResume = (): void => {
           const isFocusInside = wrapper.contains(document.activeElement);
           if (!isFocusInside) handleResume();
         };
@@ -133,11 +125,7 @@ const ToastViewport = forwardRef<ToastViewportElement, ToastViewportProps>(
     }, [hasToasts, context.isClosePausedRef]);
 
     const getSortedTabbableCandidates = useCallback(
-      ({
-        tabbingDirection,
-      }: {
-        tabbingDirection: "forwards" | "backwards";
-      }) => {
+      ({ tabbingDirection }: { tabbingDirection: "forwards" | "backwards" }) => {
         const toastItems = getItems();
         const tabbaleCandidates = toastItems.map((toastItem) => {
           const toastNode = toastItem.ref.current!;
@@ -165,7 +153,7 @@ const ToastViewport = forwardRef<ToastViewportElement, ToastViewportProps>(
       // the source order with portals, this allows us to reverse the
       // tab order so that it runs from most recent toast to least
       if (viewport) {
-        const handleKeyDown = (event: KeyboardEvent) => {
+        const handleKeyDown = (event: KeyboardEvent): void => {
           const isMetaKey = event.altKey || event.ctrlKey || event.metaKey;
           const isTabKey = event.key === "Tab" && !isMetaKey;
 
@@ -181,9 +169,7 @@ const ToastViewport = forwardRef<ToastViewportElement, ToastViewportProps>(
               return;
             }
 
-            const tabbingDirection = isTabbingBackwards
-              ? "backwards"
-              : "forwards";
+            const tabbingDirection = isTabbingBackwards ? "backwards" : "forwards";
             const sortedCandidates = getSortedTabbableCandidates({
               tabbingDirection,
             });
@@ -206,22 +192,24 @@ const ToastViewport = forwardRef<ToastViewportElement, ToastViewportProps>(
 
         // Toasts are not in the viewport React tree so we need to bind DOM events
         viewport.addEventListener("keydown", handleKeyDown);
-        return () => viewport.removeEventListener("keydown", handleKeyDown);
+        return () => {
+          viewport.removeEventListener("keydown", handleKeyDown);
+        };
       }
     }, [getItems, getSortedTabbableCandidates]);
 
     return (
       <DismissableLayer.Branch
         ref={wrapperRef}
-        role="region"
         aria-label={label.replace("{hotkey}", hotkeyLabel)}
-        // Ensure virtual cursor from landmarks menus triggers focus/blur for pause/resume
-        tabIndex={-1}
+        role="region"
         // incase list has size when empty (e.g. padding), we remove pointer events so
         // it doesn't prevent interactions with page elements that it overlays
         style={{ pointerEvents: hasToasts ? undefined : "none" }}
+        // Ensure virtual cursor from landmarks menus triggers focus/blur for pause/resume
+        tabIndex={-1}
       >
-        {hasToasts && (
+        {hasToasts ? (
           <FocusProxy
             ref={headFocusProxyRef}
             onFocusFromOutsideViewport={() => {
@@ -231,7 +219,7 @@ const ToastViewport = forwardRef<ToastViewportElement, ToastViewportProps>(
               focusFirst(tabbableCandidates);
             }}
           />
-        )}
+        ) : null}
         {/**
          * tabindex on the the list so that it can be focused when items are removed. we focus
          * the list instead of the viewport so it announces number of items remaining.
@@ -239,7 +227,7 @@ const ToastViewport = forwardRef<ToastViewportElement, ToastViewportProps>(
         <Collection.Slot scope={__scopeToast}>
           <Element.ol tabIndex={-1} {...viewportProps} ref={composedRefs} />
         </Collection.Slot>
-        {hasToasts && (
+        {hasToasts ? (
           <FocusProxy
             ref={tailFocusProxyRef}
             onFocusFromOutsideViewport={() => {
@@ -249,7 +237,7 @@ const ToastViewport = forwardRef<ToastViewportElement, ToastViewportProps>(
               focusFirst(tabbableCandidates);
             }}
           />
-        )}
+        ) : null}
       </DismissableLayer.Branch>
     );
   },

@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import { ACTION_NAME } from "./shared/constants";
 import ToastAnnounceExclude from "./announce-exclude";
-import ToastClose, { type ToastCloseProps, ToasCloseElement } from "./close";
+import ToastClose, { type ToastCloseProps, type ToasCloseElement } from "./close";
 import type { ScopedProps } from "./shared/context";
 
 type ToastActionElement = ToasCloseElement;
@@ -20,6 +20,7 @@ const ToastAction = forwardRef<ToastActionElement, ToastActionProps>(
     const { altText, ...actionProps } = props;
 
     if (!altText.trim()) {
+      // eslint-disable-next-line no-console -- debug
       console.error(
         `Invalid prop \`altText\` supplied tot \`${ACTION_NAME}\`. Expected non-empty \`string\`.`,
       );
@@ -28,7 +29,7 @@ const ToastAction = forwardRef<ToastActionElement, ToastActionProps>(
     }
 
     return (
-      <ToastAnnounceExclude altText={altText} asChild>
+      <ToastAnnounceExclude asChild altText={altText}>
         <ToastClose {...actionProps} ref={forwardedRef} />
       </ToastAnnounceExclude>
     );

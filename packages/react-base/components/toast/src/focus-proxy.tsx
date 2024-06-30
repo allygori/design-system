@@ -1,4 +1,5 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef } from "react";
 import VisuallyHidden from "@allygory/visually-hidden";
 import { FOCUS_PROXY_NAME } from "./shared/constants";
 import { useToastProviderContext } from "./shared/context";
@@ -6,7 +7,7 @@ import type { ScopedProps } from "./shared/context";
 
 type FocusProxyElement = ElementRef<typeof VisuallyHidden>;
 type FocusProxyProps = ComponentPropsWithoutRef<typeof VisuallyHidden> & {
-  onFocusFromOutsideViewport(): void;
+  onFocusFromOutsideViewport: () => void;
 };
 
 const FocusProxy = forwardRef<FocusProxyElement, ScopedProps<FocusProxyProps>>(
@@ -32,6 +33,8 @@ const FocusProxy = forwardRef<FocusProxyElement, ScopedProps<FocusProxyProps>>(
     );
   },
 );
+
+FocusProxy.displayName = "FocusProxy";
 
 export type { FocusProxyElement, FocusProxyProps };
 export default FocusProxy;

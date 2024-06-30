@@ -1,13 +1,5 @@
-import {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Element, { composeEventHandlers } from "@allygory/element";
 import * as DismissableLayer from "@allygory/dismissable-layer";
@@ -27,20 +19,14 @@ import {
   handleAndDispatchCustomEvent,
   isDeltaInDirection,
 } from "./shared/utils";
-import {
-  type ScopedProps,
-  useToastProviderContext,
-  Collection,
-} from "./shared/context";
+import { type ScopedProps, useToastProviderContext, Collection } from "./shared/context";
 import type { SwipeEvent } from "./shared/types";
 import ToastAnnounce from "./announce";
 import { ToastInteractiveProvider } from "./shared/context";
 
 type ToastImplElement = ElementRef<typeof Element.li>;
-type ToastImplPrivateProps = { open: boolean; onClose(): void };
-type DismissableLayerProps = ComponentPropsWithoutRef<
-  typeof DismissableLayer.Root
->;
+type ToastImplPrivateProps = { open: boolean; onClose: () => void };
+type DismissableLayerProps = ComponentPropsWithoutRef<typeof DismissableLayer.Root>;
 type ElementListItemProps = ComponentPropsWithoutRef<typeof Element.li>;
 type ToastImplProps = ToastImplPrivateProps &
   ElementListItemProps & {
@@ -51,12 +37,12 @@ type ToastImplProps = ToastImplPrivateProps &
      */
     duration?: number;
     onEscapeKeyDown?: DismissableLayerProps["onEscapeKeyDown"];
-    onPause?(): void;
-    onResume?(): void;
-    onSwipeStart?(event: SwipeEvent): void;
-    onSwipeMove?(event: SwipeEvent): void;
-    onSwipeCancel?(event: SwipeEvent): void;
-    onSwipeEnd?(event: SwipeEvent): void;
+    onPause?: () => void;
+    onResume?: () => void;
+    onSwipeStart?: (event: SwipeEvent) => void;
+    onSwipeMove?: (event: SwipeEvent) => void;
+    onSwipeCancel?: (event: SwipeEvent) => void;
+    onSwipeEnd?: (event: SwipeEvent) => void;
   };
 
 const ToastImpl = forwardRef<ToastImplElement, ToastImplProps>(
@@ -79,7 +65,9 @@ const ToastImpl = forwardRef<ToastImplElement, ToastImplProps>(
 
     const context = useToastProviderContext(TOAST_NAME, __scopeToast);
     const [node, setNode] = useState<ToastImplElement | null>(null);
-    const composedRefs = useComposeRefs(forwardedRef, (node) => setNode(node));
+    const composedRefs = useComposeRefs(forwardedRef, (n) => {
+      setNode(n);
+    });
     const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
     const swipeDeltaRef = useRef<{ x: number; y: number } | null>(null);
     const duration = durationProp || context.duration;
@@ -95,11 +83,11 @@ const ToastImpl = forwardRef<ToastImplElement, ToastImplProps>(
       onClose();
     });
     const startTimer = useCallback(
-      (duration: number) => {
-        if (!duration || duration === Infinity) return;
+      (dur: number) => {
+        if (!dur || dur === Infinity) return;
         window.clearTimeout(closeTimerRef.current);
         closeTimerStartTimeRef.current = new Date().getTime();
-        closeTimerRef.current = window.setTimeout(handleClose, duration);
+        closeTimerRef.current = window.setTimeout(handleClose, dur);
       },
       [handleClose],
     );
@@ -107,14 +95,13 @@ const ToastImpl = forwardRef<ToastImplElement, ToastImplProps>(
     useEffect(() => {
       const viewport = context.viewport;
       if (viewport) {
-        const handleResume = () => {
+        const handleResume = (): void => {
           startTimer(closeTimerRemainingTimeRef.current);
           onResume?.();
         };
 
-        const handlePause = () => {
-          const elapsedTime =
-            new Date().getTime() - closeTimerStartTimeRef.current;
+        const handlePause = (): void => {
+          const elapsedTime = new Date().getTime() - closeTimerStartTimeRef.current;
           closeTimerRemainingTimeRef.current =
             closeTimerRemainingTimeRef.current - elapsedTime;
           window.clearTimeout(closeTimerRef.current);
@@ -141,7 +128,9 @@ const ToastImpl = forwardRef<ToastImplElement, ToastImplProps>(
 
     useEffect(() => {
       onToastAdd();
-      return () => onToastRemove();
+      return () => {
+        onToastRemove();
+      };
     }, [onToastAdd, onToastRemove]);
 
     const announceTextContent = useMemo(() => {
@@ -152,16 +141,16 @@ const ToastImpl = forwardRef<ToastImplElement, ToastImplProps>(
 
     return (
       <>
-        {announceTextContent && (
+        {announceTextContent ? (
           <ToastAnnounce
-            __scopeToast={__scopeToast}
-            role="status"
-            aria-live={type === "foreground" ? "assertive" : "polite"}
             aria-atomic
+            __scopeToast={__scopeToast}
+            aria-live={type === "foreground" ? "assertive" : "polite"}
+            role="status"
           >
             {announceTextContent}
           </ToastAnnounce>
-        )}
+        ) : null}
 
         <ToastInteractiveProvider scope={__scopeToast} onClose={handleClose}>
           {createPortal(
@@ -177,12 +166,12 @@ const ToastImpl = forwardRef<ToastImplElement, ToastImplProps>(
               >
                 <Element.li
                   // Ensure toasts are announced as status list or status when focused
-                  role="status"
-                  aria-live="off"
                   aria-atomic
-                  tabIndex={0}
+                  aria-live="off"
                   data-state={open ? "open" : "close"}
                   data-swipe-direction={context.swipeDirection}
+                  role="status"
+                  tabIndex={0}
                   {...toastProps}
                   ref={composedRefs}
                   style={{
@@ -198,124 +187,106 @@ const ToastImpl = forwardRef<ToastImplElement, ToastImplProps>(
                       handleClose();
                     }
                   })}
-                  onPointerDown={composeEventHandlers(
-                    props.onPointerDown,
-                    (event) => {
-                      if (event.button !== 0) return;
-                      pointerStartRef.current = {
-                        x: event.clientX,
-                        y: event.clientY,
-                      };
-                    },
-                  )}
-                  onPointerMove={composeEventHandlers(
-                    props.onPointerMove,
-                    (event) => {
-                      if (!pointerStartRef.current) return;
-                      const x = event.clientX - pointerStartRef.current.x;
-                      const y = event.clientY - pointerStartRef.current.y;
-                      const hasSwipeMoveStarted = Boolean(
-                        swipeDeltaRef.current,
+                  onPointerDown={composeEventHandlers(props.onPointerDown, (event) => {
+                    if (event.button !== 0) return;
+                    pointerStartRef.current = {
+                      x: event.clientX,
+                      y: event.clientY,
+                    };
+                  })}
+                  onPointerMove={composeEventHandlers(props.onPointerMove, (event) => {
+                    if (!pointerStartRef.current) return;
+                    const x = event.clientX - pointerStartRef.current.x;
+                    const y = event.clientY - pointerStartRef.current.y;
+                    const hasSwipeMoveStarted = Boolean(swipeDeltaRef.current);
+                    const isHorizontalSwipe = ["left", "right"].includes(
+                      context.swipeDirection,
+                    );
+                    const clamp = ["left", "up"].includes(context.swipeDirection)
+                      ? Math.min
+                      : Math.max;
+                    const clampedX = isHorizontalSwipe ? clamp(0, x) : 0;
+                    const clampedY = !isHorizontalSwipe ? clamp(0, y) : 0;
+                    const moveStartBuffer = event.pointerType === "touch" ? 10 : 2;
+                    const delta = { x: clampedX, y: clampedY };
+                    const eventDetail = { originalEvent: event, delta };
+                    if (hasSwipeMoveStarted) {
+                      swipeDeltaRef.current = delta;
+                      handleAndDispatchCustomEvent(
+                        TOAST_SWIPE_MOVE,
+                        onSwipeMove,
+                        eventDetail,
+                        {
+                          discrete: false,
+                        },
                       );
-                      const isHorizontalSwipe = ["left", "right"].includes(
-                        context.swipeDirection,
+                    } else if (
+                      isDeltaInDirection(delta, context.swipeDirection, moveStartBuffer)
+                    ) {
+                      swipeDeltaRef.current = delta;
+                      handleAndDispatchCustomEvent(
+                        TOAST_SWIPE_START,
+                        onSwipeStart,
+                        eventDetail,
+                        {
+                          discrete: false,
+                        },
                       );
-                      const clamp = ["left", "up"].includes(
-                        context.swipeDirection,
-                      )
-                        ? Math.min
-                        : Math.max;
-                      const clampedX = isHorizontalSwipe ? clamp(0, x) : 0;
-                      const clampedY = !isHorizontalSwipe ? clamp(0, y) : 0;
-                      const moveStartBuffer =
-                        event.pointerType === "touch" ? 10 : 2;
-                      const delta = { x: clampedX, y: clampedY };
+                      (event.target as HTMLElement).setPointerCapture(event.pointerId);
+                    } else if (
+                      Math.abs(x) > moveStartBuffer ||
+                      Math.abs(y) > moveStartBuffer
+                    ) {
+                      // User is swiping in wrong direction so we disable swipe gesture
+                      // for the current pointer down interaction
+                      pointerStartRef.current = null;
+                    }
+                  })}
+                  onPointerUp={composeEventHandlers(props.onPointerUp, (event) => {
+                    const delta = swipeDeltaRef.current;
+                    const target = event.target as HTMLElement;
+                    if (target.hasPointerCapture(event.pointerId)) {
+                      target.releasePointerCapture(event.pointerId);
+                    }
+                    swipeDeltaRef.current = null;
+                    pointerStartRef.current = null;
+                    if (delta) {
+                      const toast = event.currentTarget;
                       const eventDetail = { originalEvent: event, delta };
-                      if (hasSwipeMoveStarted) {
-                        swipeDeltaRef.current = delta;
-                        handleAndDispatchCustomEvent(
-                          TOAST_SWIPE_MOVE,
-                          onSwipeMove,
-                          eventDetail,
-                          {
-                            discrete: false,
-                          },
-                        );
-                      } else if (
+                      if (
                         isDeltaInDirection(
                           delta,
                           context.swipeDirection,
-                          moveStartBuffer,
+                          context.swipeThreshold,
                         )
                       ) {
-                        swipeDeltaRef.current = delta;
                         handleAndDispatchCustomEvent(
-                          TOAST_SWIPE_START,
-                          onSwipeStart,
+                          TOAST_SWIPE_END,
+                          onSwipeEnd,
                           eventDetail,
-                          {
-                            discrete: false,
-                          },
+                          { discrete: true },
                         );
-                        (event.target as HTMLElement).setPointerCapture(
-                          event.pointerId,
-                        );
-                      } else if (
-                        Math.abs(x) > moveStartBuffer ||
-                        Math.abs(y) > moveStartBuffer
-                      ) {
-                        // User is swiping in wrong direction so we disable swipe gesture
-                        // for the current pointer down interaction
-                        pointerStartRef.current = null;
-                      }
-                    },
-                  )}
-                  onPointerUp={composeEventHandlers(
-                    props.onPointerUp,
-                    (event) => {
-                      const delta = swipeDeltaRef.current;
-                      const target = event.target as HTMLElement;
-                      if (target.hasPointerCapture(event.pointerId)) {
-                        target.releasePointerCapture(event.pointerId);
-                      }
-                      swipeDeltaRef.current = null;
-                      pointerStartRef.current = null;
-                      if (delta) {
-                        const toast = event.currentTarget;
-                        const eventDetail = { originalEvent: event, delta };
-                        if (
-                          isDeltaInDirection(
-                            delta,
-                            context.swipeDirection,
-                            context.swipeThreshold,
-                          )
-                        ) {
-                          handleAndDispatchCustomEvent(
-                            TOAST_SWIPE_END,
-                            onSwipeEnd,
-                            eventDetail,
-                            { discrete: true },
-                          );
-                        } else {
-                          handleAndDispatchCustomEvent(
-                            TOAST_SWIPE_CANCEL,
-                            onSwipeCancel,
-                            eventDetail,
-                            { discrete: true },
-                          );
-                        }
-                        // Prevent click event from triggering on items within the toast when
-                        // pointer up is part of a swipe gesture
-                        toast.addEventListener(
-                          "click",
-                          (event) => event.preventDefault(),
-                          {
-                            once: true,
-                          },
+                      } else {
+                        handleAndDispatchCustomEvent(
+                          TOAST_SWIPE_CANCEL,
+                          onSwipeCancel,
+                          eventDetail,
+                          { discrete: true },
                         );
                       }
-                    },
-                  )}
+                      // Prevent click event from triggering on items within the toast when
+                      // pointer up is part of a swipe gesture
+                      toast.addEventListener(
+                        "click",
+                        (e) => {
+                          e.preventDefault();
+                        },
+                        {
+                          once: true,
+                        },
+                      );
+                    }
+                  })}
                 />
               </DismissableLayer.Root>
             </Collection.ItemSlot>,
@@ -326,6 +297,8 @@ const ToastImpl = forwardRef<ToastImplElement, ToastImplProps>(
     );
   },
 );
+
+ToastImpl.displayName = "ToastImpl";
 
 export type { ToastImplElement, ToastImplProps, ToastImplPrivateProps };
 export default ToastImpl;

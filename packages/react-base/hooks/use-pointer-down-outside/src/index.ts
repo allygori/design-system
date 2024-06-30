@@ -1,32 +1,29 @@
+/* eslint-disable tsdoc/syntax -- ignore*/
 import { useEffect, useRef } from "react";
 import { handleAndDispatchCustomEvent } from "@allygory/shared";
 import useCallbackRef from "@allygory/use-callback-ref";
 
 type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>;
 
-function usePointerDownOutside(
+const usePointerDownOutside = (
   eventName: string,
   onPointerDownOutside?: (event: PointerDownOutsideEvent) => void,
-  ownerDocument: Document = globalThis?.document,
-) {
-  const handlePointerDownOutside = useCallbackRef(
-    onPointerDownOutside,
-  ) as EventListener;
+  ownerDocument: Document = globalThis.document,
+): { onPointerDownCapture: () => boolean } => {
+  const handlePointerDownOutside = useCallbackRef(onPointerDownOutside) as EventListener;
   const isPointerInsideReactTreeRef = useRef(false);
+  // eslint-disable-next-line @typescript-eslint/no-empty-function -- ignore
   const handleClickRef = useRef(() => {});
 
   useEffect(() => {
-    const handlePointerDown = (event: PointerEvent) => {
+    const handlePointerDown = (event: PointerEvent): void => {
       if (event.target && !isPointerInsideReactTreeRef.current) {
         const eventDetail = { originalEvent: event };
 
-        const handleAndDispatchPointerDownOutsideEvent = () => {
-          handleAndDispatchCustomEvent(
-            eventName,
-            handlePointerDownOutside,
-            eventDetail,
-            { discrete: true },
-          );
+        const handleAndDispatchPointerDownOutsideEvent = (): void => {
+          handleAndDispatchCustomEvent(eventName, handlePointerDownOutside, eventDetail, {
+            discrete: true,
+          });
         };
 
         /**
@@ -81,13 +78,13 @@ function usePointerDownOutside(
       ownerDocument.removeEventListener("pointerdown", handlePointerDown);
       ownerDocument.removeEventListener("click", handleClickRef.current);
     };
-  }, [ownerDocument, handlePointerDownOutside]);
+  }, [eventName, ownerDocument, handlePointerDownOutside]);
 
   return {
     // ensures we check React component tree (not just DOM tree)
     onPointerDownCapture: () => (isPointerInsideReactTreeRef.current = true),
   };
-}
+};
 
 export type { PointerDownOutsideEvent };
 export default usePointerDownOutside;

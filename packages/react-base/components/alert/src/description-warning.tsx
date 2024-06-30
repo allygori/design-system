@@ -1,14 +1,13 @@
-import { FC, RefObject, useEffect } from "react";
-import { AlertContentElement } from "./content";
+import type { FC, RefObject } from "react";
+import { useEffect } from "react";
+import type { AlertContentElement } from "./content";
 import { CONTENT_NAME, DESCRIPTION_NAME } from "./shared/constants";
 
 type AlertDescriptionWarningProps = {
   contentRef: RefObject<AlertContentElement>;
 };
 
-const AlertDescriptionWarning: FC<AlertDescriptionWarningProps> = ({
-  contentRef,
-}) => {
+const AlertDescriptionWarning: FC<AlertDescriptionWarningProps> = ({ contentRef }) => {
   const MESSAGE = `\`${CONTENT_NAME}\` requires a description for the component to be accessible for screen reader users.
 
   You can add a description to the \`${CONTENT_NAME}\` by passing a \`${DESCRIPTION_NAME}\` component as a child, which also benefits sighted users by adding visible context to the dialog.
@@ -21,6 +20,7 @@ const AlertDescriptionWarning: FC<AlertDescriptionWarningProps> = ({
     const ariaDescribeBy = contentRef.current?.getAttribute("aria-describeby");
     if (ariaDescribeBy) {
       const hasDescription = document.getElementById(ariaDescribeBy);
+      // eslint-disable-next-line no-console -- debug
       if (!hasDescription) console.warn(MESSAGE);
     }
   }, [MESSAGE, contentRef]);

@@ -1,9 +1,10 @@
-import { ComponentPropsWithoutRef, FC, useEffect, useState } from "react";
+import type { ComponentPropsWithoutRef, FC } from "react";
+import { useEffect, useState } from "react";
 import Portal from "@allygory/portal";
 import VisuallyHidden from "@allygory/visually-hidden";
 import useNextFrame from "@allygory/use-next-frame";
 import { TOAST_NAME } from "./shared/constants";
-import { ScopedProps, useToastProviderContext } from "./shared/context";
+import { type ScopedProps, useToastProviderContext } from "./shared/context";
 
 type ToastAnnounceProps = Omit<ComponentPropsWithoutRef<"div">, "children"> &
   ScopedProps<{ children: string[] }>;
@@ -17,22 +18,28 @@ const ToastAnnounce: FC<ToastAnnounceProps> = (
   const [isAnnounced, setIsAnnounced] = useState(false);
 
   // render text content in the next frame to ensure toast is announced in NVDA
-  useNextFrame(() => setRenderAnnounceText(true));
+  useNextFrame(() => {
+    setRenderAnnounceText(true);
+  });
 
   // cleanup after announcing
   useEffect(() => {
-    const timer = window.setTimeout(() => setIsAnnounced(true), 1000);
-    return () => window.clearTimeout(timer);
+    const timer = window.setTimeout(() => {
+      setIsAnnounced(true);
+    }, 1000);
+    return () => {
+      window.clearTimeout(timer);
+    };
   }, []);
 
   return isAnnounced ? null : (
     <Portal asChild>
       <VisuallyHidden {...anounceProps}>
-        {renderAnnounceText && (
+        {renderAnnounceText ? (
           <>
             {context.label} {children}
           </>
-        )}
+        ) : null}
       </VisuallyHidden>
     </Portal>
   );

@@ -1,7 +1,8 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef } from "react";
 import * as Dialog from "@allygory/dialog";
 import { ACTION_NAME } from "./shared/constants";
-import { ScopedProps } from "./shared/types";
+import { type ScopedProps } from "./shared/types";
 import { useDialogScope } from "./shared/context";
 
 type AlertActionElement = ElementRef<typeof Dialog.Close>;
@@ -12,9 +13,7 @@ const AlertAction = forwardRef<AlertActionElement, AlertActionProps>(
     const { __scopeAlert, ...actionProps } = props;
     const dialogScope = useDialogScope(__scopeAlert);
 
-    return (
-      <Dialog.Close ref={forwardedRef} {...dialogScope} {...actionProps} />
-    );
+    return <Dialog.Close ref={forwardedRef} {...dialogScope} {...actionProps} />;
   },
 );
 

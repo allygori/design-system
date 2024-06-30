@@ -14,6 +14,7 @@ import type {
 
 type AccordionRootElement =
   | AccordionRootImplMultipleElement
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents -- ignore
   | AccordionRootImplSingleElement;
 type AccordionSingleProps = AccordionRootImplSingleProps & {
   type: "single";
@@ -25,32 +26,23 @@ type AccordionMultipleProps = AccordionRootImplMultipleProps & {
 const AccordionRoot = forwardRef<
   AccordionRootElement,
   AccordionSingleProps | AccordionMultipleProps
->(
-  (
-    props: ScopedProps<AccordionSingleProps | AccordionMultipleProps>,
-    forwardedRef,
-  ) => {
-    const { __scopeAccordion, type, ...accordionProps } = props;
-    const singleProps = accordionProps as AccordionRootImplSingleProps;
-    const multipleProps = accordionProps as AccordionRootImplMultipleProps;
+>((props: ScopedProps<AccordionSingleProps | AccordionMultipleProps>, forwardedRef) => {
+  const { __scopeAccordion, type, ...accordionProps } = props;
+  const singleProps = accordionProps as AccordionRootImplSingleProps;
+  const multipleProps = accordionProps as AccordionRootImplMultipleProps;
 
-    return (
-      <Collection.Provider scope={__scopeAccordion}>
-        {type === "multiple" ? (
-          <AccordionRootImplMultiple {...multipleProps} ref={forwardedRef} />
-        ) : (
-          <AccordionRootImplSingle {...singleProps} ref={forwardedRef} />
-        )}
-      </Collection.Provider>
-    );
-  },
-);
+  return (
+    <Collection.Provider scope={__scopeAccordion}>
+      {type === "multiple" ? (
+        <AccordionRootImplMultiple {...multipleProps} ref={forwardedRef} />
+      ) : (
+        <AccordionRootImplSingle {...singleProps} ref={forwardedRef} />
+      )}
+    </Collection.Provider>
+  );
+});
 
 AccordionRoot.displayName = ACCORDION_NAME;
 
-export type {
-  AccordionRootElement,
-  AccordionSingleProps,
-  AccordionMultipleProps,
-};
+export type { AccordionRootElement, AccordionSingleProps, AccordionMultipleProps };
 export default AccordionRoot;

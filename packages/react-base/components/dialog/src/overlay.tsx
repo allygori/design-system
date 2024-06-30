@@ -1,6 +1,7 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef } from "react";
 import Presence from "@allygory/presence";
-import Element from "@allygory/element";
+import type Element from "@allygory/element";
 import { OVERLAY_NAME } from "./shared/constants";
 import { type ScopedProps, useRootContext, usePortalContext } from "./shared/context";
 import OverlayImpl from "./overlay-impl";

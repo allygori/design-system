@@ -1,14 +1,8 @@
-import {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  forwardRef,
-  useContext,
-  useEffect,
-  useRef,
-} from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef, useContext, useEffect, useRef } from "react";
 import Element from "@allygory/element";
-import DismissableLayerContext from "./lib/context";
 import useComposeRefs from "@allygory/use-compose-refs";
+import DismissableLayerContext from "./lib/context";
 
 const DISPLAY_NAME = "DismissableLayerBranch";
 

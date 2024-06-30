@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { TITLE_WARNING_NAME } from "./shared/constants";
 import { useWarningContext } from "./shared/context";
 
@@ -16,6 +17,7 @@ For more information, see docs`;
   useEffect(() => {
     if (titleId) {
       const hasTitle = document.getElementById(titleId);
+      // eslint-disable-next-line no-console -- debug purpose
       if (!hasTitle) console.error(MESSAGE);
     }
   }, [MESSAGE, titleId]);

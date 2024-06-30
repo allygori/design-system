@@ -6,7 +6,7 @@ type CollapsibleContextValue = {
   contentId: string;
   disabled?: boolean;
   open: boolean;
-  onOpenToggle(): void;
+  onOpenToggle: () => void;
 };
 
 const [createCollapsibleContext, createCollapsibleScope] =

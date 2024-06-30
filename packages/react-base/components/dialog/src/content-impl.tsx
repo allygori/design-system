@@ -1,4 +1,4 @@
-import { ElementRef, forwardRef, useRef } from "react";
+import { type ElementRef, forwardRef, useRef } from "react";
 import useComposedRefs from "@allygory/use-compose-refs";
 import useFocusGuards from "@allygory/use-focus-guards";
 import DismissableLayer, {
@@ -60,14 +60,16 @@ const ContentImpl = forwardRef<ContentImplElement, ContentImplProps>(
           onUnmountAutoFocus={onCloseAutoFocus}
         >
           <DismissableLayer
-            role="dialog"
-            ref={composeRefs}
-            id={context.contentId}
             aria-describedby={context.descriptionId}
             aria-labelledby={context.titleId}
             data-state={getState(context.open)}
+            id={context.contentId}
+            role="dialog"
             {...contentProps}
-            onDismiss={() => context.onOpenChange(false)}
+            ref={composeRefs}
+            onDismiss={() => {
+              context.onOpenChange(false);
+            }}
           />
         </FocusScope>
         {process.env.NODE_ENV !== "production" && (

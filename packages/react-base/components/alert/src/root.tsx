@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, FC } from "react";
+import type { ComponentPropsWithoutRef, FC } from "react";
 import * as Dialog from "@allygory/dialog";
 import { useDialogScope } from "./shared/context";
 import { ROOT_NAME } from "./shared/constants";
@@ -11,7 +11,7 @@ const AlertRoot: FC<AlertRootProps> = (props: ScopedProps<AlertRootProps>) => {
   const { __scopeAlert, ...alertProps } = props;
   const dialogScope = useDialogScope(__scopeAlert);
 
-  return <Dialog.Root {...dialogScope} {...alertProps} modal={true} />;
+  return <Dialog.Root {...dialogScope} {...alertProps} modal />;
 };
 
 AlertRoot.displayName = ROOT_NAME;

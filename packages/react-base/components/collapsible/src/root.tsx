@@ -1,13 +1,9 @@
-import {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  forwardRef,
-  useCallback,
-} from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef, useCallback } from "react";
 import Element from "@allygory/element";
 import useId from "@allygory/use-id";
 import useControllableState from "@allygory/use-controllable-state";
-import { CollapsibleProvider, ScopedProps } from "./shared/context";
+import { type ScopedProps, CollapsibleProvider } from "./shared/context";
 import { getState } from "./shared/utils";
 import { COLLAPSIBLE_NAME } from "./shared/constants";
 
@@ -16,7 +12,7 @@ type CollapsibleProps = ComponentPropsWithoutRef<typeof Element.div> & {
   defaultOpen?: boolean;
   open?: boolean;
   disabled?: boolean;
-  onOpenChange?(open: boolean): void;
+  onOpenChange?: (open: boolean) => void;
 };
 
 const Collapsible = forwardRef<CollapsibleElement, CollapsibleProps>(
@@ -38,19 +34,18 @@ const Collapsible = forwardRef<CollapsibleElement, CollapsibleProps>(
 
     return (
       <CollapsibleProvider
-        scope={__scopeCollapsible}
-        disabled={disabled}
         contentId={useId()}
+        disabled={disabled}
         open={open}
-        onOpenToggle={useCallback(
-          () => setOpen((prevOpen) => !prevOpen),
-          [setOpen],
-        )}
+        scope={__scopeCollapsible}
+        onOpenToggle={useCallback(() => {
+          setOpen((prevOpen) => !prevOpen);
+        }, [setOpen])}
       >
         <Element.div
           ref={forwardedRef}
-          data-state={getState(open)}
           data-disabled={disabled ? "" : undefined}
+          data-state={getState(open)}
           {...collapsibleProps}
         />
       </CollapsibleProvider>

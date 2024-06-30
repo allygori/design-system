@@ -1,4 +1,5 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef } from "react";
 import Element from "@allygory/element";
 import { TITLE_NAME } from "./shared/constants";
 import type { ScopedProps } from "./shared/context";

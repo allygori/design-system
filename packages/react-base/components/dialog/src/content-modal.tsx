@@ -31,29 +31,28 @@ const ContentModal = forwardRef<ContentModalElement, ContentModalProps>(
         ref={composedRefs}
         // we make sure focus isn't trapped once `DialogContent` has been closed
         // (closed !== unmounted when animating out)
-        trapFocus={context.open}
         disableOutsidePointerEvents
+        trapFocus={context.open}
         onCloseAutoFocus={composeEventHandlers(props.onCloseAutoFocus, (event) => {
           event.preventDefault();
           context.triggerRef.current?.focus();
+        })}
+        // When focus is trapped, a `focusout` event may still happen.
+        // We make sure we don't trigger our `onDismiss` in such case.
+        onFocusOutside={composeEventHandlers(props.onFocusOutside, (event) => {
+          event.preventDefault();
         })}
         onPointerDownOutside={composeEventHandlers(
           props.onPointerDownOutside,
           (event) => {
             const originalEvent = event.detail.originalEvent;
-            const ctrlLeftClick =
-              originalEvent.button === 0 && originalEvent.ctrlKey === true;
+            const ctrlLeftClick = originalEvent.button === 0 && originalEvent.ctrlKey;
             const isRightClick = originalEvent.button === 2 || ctrlLeftClick;
 
             // If the event is a right-click, we shouldn't close because
             // it is effectively as if we right-clicked the `Overlay`.
             if (isRightClick) event.preventDefault();
           },
-        )}
-        // When focus is trapped, a `focusout` event may still happen.
-        // We make sure we don't trigger our `onDismiss` in such case.
-        onFocusOutside={composeEventHandlers(props.onFocusOutside, (event) =>
-          event.preventDefault(),
         )}
       />
     );

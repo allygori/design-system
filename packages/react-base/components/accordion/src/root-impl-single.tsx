@@ -1,14 +1,13 @@
+/* eslint-disable tsdoc/syntax -- ignore */
 import { forwardRef, useCallback } from "react";
 import useControllableState from "@allygory/use-controllable-state";
+import { ACCORDION_NAME } from "./shared/constants";
 import {
   AccordionCollapsibleProvider,
   AccordionValueProvider,
 } from "./shared/context/root-impl-single.context";
 import AccordionImpl from "./root-impl";
-import type {
-  AccordionRootImplElement,
-  AccordionRootImplProps,
-} from "./root-impl";
+import type { AccordionRootImplElement, AccordionRootImplProps } from "./root-impl";
 import type { ScopedProps } from "./shared/context/base.context";
 
 type AccordionRootImplSingleElement = AccordionRootImplElement;
@@ -30,7 +29,7 @@ type AccordionRootImplSingleProps = AccordionRootImplProps & {
   /**
    * The callback that fires when the state of the accordion changes.
    */
-  onValueChange?(value: string): void;
+  onValueChange?: (value: string) => void;
 };
 
 const AccordionRootImplSingle = forwardRef<
@@ -42,7 +41,7 @@ const AccordionRootImplSingle = forwardRef<
     value: valueProp,
     defaultValue,
     collapsible = false,
-    onValueChange = () => {},
+    onValueChange = () => null,
     ...accordionSingleProps
   } = props;
 
@@ -56,21 +55,19 @@ const AccordionRootImplSingle = forwardRef<
     <AccordionValueProvider
       scope={__scopeAccordion}
       value={value ? [value] : []}
+      onItemClose={useCallback(() => {
+        collapsible && setValue("");
+      }, [collapsible, setValue])}
       onItemOpen={setValue}
-      onItemClose={useCallback(
-        () => collapsible && setValue(""),
-        [collapsible, setValue],
-      )}
     >
-      <AccordionCollapsibleProvider
-        scope={__scopeAccordion}
-        collapsible={collapsible}
-      >
+      <AccordionCollapsibleProvider collapsible={collapsible} scope={__scopeAccordion}>
         <AccordionImpl {...accordionSingleProps} ref={forwardedRef} />
       </AccordionCollapsibleProvider>
     </AccordionValueProvider>
   );
 });
+
+AccordionRootImplSingle.displayName = ACCORDION_NAME;
 
 export type { AccordionRootImplSingleElement, AccordionRootImplSingleProps };
 export default AccordionRootImplSingle;

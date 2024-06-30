@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import type { RefObject } from "react";
 import { type Scope, createContextScope } from "@allygory/context";
 import { ROOT_NAME } from "../constants";
 import type { ContentElement } from "../../content";
@@ -12,8 +12,8 @@ type RootContextValue = {
   titleId: string;
   descriptionId: string;
   open: boolean;
-  onOpenChange(open: boolean): void;
-  onOpenToggle(): void;
+  onOpenChange: (open: boolean) => void;
+  onOpenToggle: () => void;
   modal: boolean;
 };
 

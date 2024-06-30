@@ -1,8 +1,8 @@
-import { MutableRefObject } from "react";
+import type { MutableRefObject } from "react";
 import { createDialogScope } from "@allygory/dialog";
 import { createContextScope } from "@allygory/context";
-import { ROOT_NAME, CONTENT_NAME } from "./constants";
 import type { AlertCancelElement } from "../cancel";
+import { ROOT_NAME, CONTENT_NAME } from "./constants";
 
 /**************************************************************
  * Alert Context

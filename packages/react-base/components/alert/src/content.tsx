@@ -1,19 +1,13 @@
-import {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  MutableRefObject,
-  forwardRef,
-  useRef,
-} from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef, useRef } from "react";
 import * as Dialog from "@allygory/dialog";
 import useComposeRefs from "@allygory/use-compose-refs";
 import { Slotablle } from "@allygory/slot";
-import { ScopedProps } from "./shared/types";
-import { useDialogScope } from "./shared/context";
-import { CONTENT_NAME, TITLE_NAME } from "./shared/constants";
-import { AlertContentProvider } from "./shared/context";
-import type { AlertCancelElement } from "./cancel";
 import { composeEventHandlers } from "@allygory/element";
+import { CONTENT_NAME, TITLE_NAME } from "./shared/constants";
+import { type ScopedProps } from "./shared/types";
+import { AlertContentProvider, useDialogScope } from "./shared/context";
+import type { AlertCancelElement } from "./cancel";
 
 type AlertContentElement = ElementRef<typeof Dialog.Content>;
 type DialogContentProps = ComponentPropsWithoutRef<typeof Dialog.Content>;
@@ -33,15 +27,18 @@ const AlertContent = forwardRef<AlertContentElement, AlertContentProps>(
     return (
       <Dialog.WarningProvider
         contentName={CONTENT_NAME}
-        titleName={TITLE_NAME}
         docsSlug="alert"
+        titleName={TITLE_NAME}
       >
-        <AlertContentProvider scope={__scopeAlert} cancelRef={cancelRef}>
+        <AlertContentProvider cancelRef={cancelRef} scope={__scopeAlert}>
           <Dialog.Content
-            role="alertdialog"
             ref={composeRefs}
+            role="alertdialog"
             {...dialogScope}
             {...contentProps}
+            onInteractOutside={(event) => {
+              event.preventDefault();
+            }}
             onOpenAutoFocus={composeEventHandlers(
               contentProps.onOpenAutoFocus,
               (event) => {
@@ -49,8 +46,9 @@ const AlertContent = forwardRef<AlertContentElement, AlertContentProps>(
                 cancelRef.current?.focus({ preventScroll: true });
               },
             )}
-            onPointerDownOutside={(event) => event.preventDefault()}
-            onInteractOutside={(event) => event.preventDefault()}
+            onPointerDownOutside={(event) => {
+              event.preventDefault();
+            }}
           >
             {/**
              * We have to use `Slottable` here as we cannot wrap the `AlertDialogContentProvider`

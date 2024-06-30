@@ -1,22 +1,14 @@
-import {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import Element from "@allygory/element";
 import useComposedRefs from "@allygory/use-compose-refs";
-import { ScopedProps, useCollapsibleContext } from "./shared/context";
-import { CONTENT_NAME } from "./shared/constants";
 import useLayoutEffect from "@allygory/use-layout-effect";
+import { CONTENT_NAME } from "./shared/constants";
+import { type ScopedProps, useCollapsibleContext } from "./shared/context";
 import { getState } from "./shared/utils";
 
 type CollapsibleContentImplElement = ElementRef<typeof Element.div>;
-type CollapsibleContentImplProps = ComponentPropsWithoutRef<
-  typeof Element.div
-> & {
+type CollapsibleContentImplProps = ComponentPropsWithoutRef<typeof Element.div> & {
   present: boolean;
 };
 
@@ -43,7 +35,9 @@ const CollapsibleContentImpl = forwardRef<
     const rAF = requestAnimationFrame(
       () => (isMountAnimationPreventedRef.current = false),
     );
-    return () => cancelAnimationFrame(rAF);
+    return () => {
+      cancelAnimationFrame(rAF);
+    };
   }, []);
 
   useLayoutEffect(() => {
@@ -64,8 +58,7 @@ const CollapsibleContentImpl = forwardRef<
 
       // kick off any animations/transitions that were originally set up if it isn't the initial mount
       if (!isMountAnimationPreventedRef.current) {
-        node.style.transitionDuration =
-          originalStyleRef.current.transitionDuration;
+        node.style.transitionDuration = originalStyleRef.current.transitionDuration;
         node.style.animationName = originalStyleRef.current.animationName;
       }
 
@@ -82,22 +75,22 @@ const CollapsibleContentImpl = forwardRef<
   return (
     <Element.div
       ref={composedRefs}
-      data-state={getState(context.open)}
       data-disabled={context.disabled ? "" : undefined}
-      id={context.contentId}
+      data-state={getState(context.open)}
       hidden={!isOpen}
+      id={context.contentId}
       {...contentProps}
       style={{
-        [`--allygory-collapsible-content-height` as any]: height
+        [`--allygory-collapsible-content-height` as never]: height
           ? `${height}px`
           : undefined,
-        [`--allygory-collapsible-content-width` as any]: width
+        [`--allygory-collapsible-content-width` as never]: width
           ? `${width}px`
           : undefined,
         ...props.style,
       }}
     >
-      {isOpen && children}
+      {isOpen ? children : null}
     </Element.div>
   );
 });

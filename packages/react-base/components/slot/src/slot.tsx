@@ -1,11 +1,6 @@
-import {
-  Children,
-  HTMLAttributes,
-  ReactNode,
-  cloneElement,
-  forwardRef,
-  isValidElement,
-} from "react";
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import type { HTMLAttributes, ReactNode } from "react";
+import { Children, cloneElement, forwardRef, isValidElement } from "react";
 import SlotClone from "./slot-clone";
 import { isSlottable } from "./utils";
 
@@ -33,9 +28,9 @@ const Slot = forwardRef<HTMLElement, SlotProps>((props, forwardedRef) => {
         return isValidElement(newElement)
           ? (newElement.props.children as ReactNode)
           : null;
-      } else {
-        return child;
       }
+
+      return child;
     });
 
     return (

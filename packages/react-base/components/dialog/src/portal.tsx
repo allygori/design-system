@@ -1,4 +1,5 @@
-import { Children, ComponentPropsWithoutRef, ReactNode, FC } from "react";
+import type { ComponentPropsWithoutRef, ReactNode, FC } from "react";
+import { Children } from "react";
 import PortalPrimitive from "@allygory/portal";
 import Presence from "@allygory/presence";
 import { PORTAL_NAME } from "./shared/constants";
@@ -23,7 +24,7 @@ const Portal: FC<PortalProps> = (props: ScopedProps<PortalProps>) => {
   const context = useRootContext(PORTAL_NAME, __scopeDialog);
 
   return (
-    <PortalProvider scope={__scopeDialog} forceMount={forceMount}>
+    <PortalProvider forceMount={forceMount} scope={__scopeDialog}>
       {Children.map(children, (child) => {
         return (
           <Presence present={forceMount || context.open}>

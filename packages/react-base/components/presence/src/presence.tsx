@@ -1,4 +1,6 @@
-import { Children, FC, ReactElement, cloneElement } from "react";
+/* eslint-disable @typescript-eslint/no-unsafe-argument -- ignore */
+import type { FC, ReactElement } from "react";
+import { Children, cloneElement } from "react";
 import useComposedRefs from "@allygory/use-compose-refs";
 import usePresence from "./lib/use-presence";
 import { getElementRef } from "./lib/utils";
@@ -12,11 +14,10 @@ const Presence: FC<PresenceProps> = (props) => {
   const { present, children } = props;
   const presence = usePresence(present);
 
-  const child = (
+  const child =
     typeof children === "function"
       ? children({ present: presence.isPresent })
-      : Children.only(children)
-  ) as ReactElement;
+      : Children.only(children);
 
   const ref = useComposedRefs(presence.ref, getElementRef(child));
   const forceMount = typeof children === "function";

@@ -1,9 +1,8 @@
 import { forwardRef, useCallback } from "react";
 import useControllableState from "@allygory/use-controllable-state";
-import AccordionRootImpl, {
-  AccordionRootImplElement,
-  AccordionRootImplProps,
-} from "./root-impl";
+import { ACCORDION_NAME } from "./shared/constants";
+import type { AccordionRootImplElement, AccordionRootImplProps } from "./root-impl";
+import AccordionRootImpl from "./root-impl";
 import {
   AccordionCollapsibleProvider,
   AccordionValueProvider,
@@ -24,7 +23,7 @@ type AccordionRootImplMultipleProps = AccordionRootImplProps & {
   /**
    * The callback that fires when the state of the accordion changes.
    */
-  onValueChange?(value: string[]): void;
+  onValueChange?: (value: string[]) => void;
 };
 
 const AccordionRootImplMultiple = forwardRef<
@@ -35,7 +34,7 @@ const AccordionRootImplMultiple = forwardRef<
     __scopeAccordion,
     value: valueProp,
     defaultValue,
-    onValueChange = () => {},
+    onValueChange = () => null,
     ...accordionMultipleProps
   } = props;
 
@@ -46,16 +45,16 @@ const AccordionRootImplMultiple = forwardRef<
   });
 
   const handleItemOpen = useCallback(
-    (itemValue: string) =>
-      setValue((prevValue = []) => [...prevValue, itemValue]),
+    (itemValue: string) => {
+      setValue((prevValue = []) => [...prevValue, itemValue]);
+    },
     [setValue],
   );
 
   const handleItemClose = useCallback(
-    (itemValue: string) =>
-      setValue((preValue = []) =>
-        preValue.filter((value) => value !== itemValue),
-      ),
+    (itemValue: string) => {
+      setValue((preValue = []) => preValue.filter((val) => val !== itemValue));
+    },
     [setValue],
   );
 
@@ -63,18 +62,17 @@ const AccordionRootImplMultiple = forwardRef<
     <AccordionValueProvider
       scope={__scopeAccordion}
       value={value}
-      onItemOpen={handleItemOpen}
       onItemClose={handleItemClose}
+      onItemOpen={handleItemOpen}
     >
-      <AccordionCollapsibleProvider scope={__scopeAccordion} collapsible={true}>
+      <AccordionCollapsibleProvider collapsible scope={__scopeAccordion}>
         <AccordionRootImpl {...accordionMultipleProps} ref={forwardedRef} />
       </AccordionCollapsibleProvider>
     </AccordionValueProvider>
   );
 });
 
-export type {
-  AccordionRootImplMultipleElement,
-  AccordionRootImplMultipleProps,
-};
+AccordionRootImplMultiple.displayName = ACCORDION_NAME;
+
+export type { AccordionRootImplMultipleElement, AccordionRootImplMultipleProps };
 export default AccordionRootImplMultiple;

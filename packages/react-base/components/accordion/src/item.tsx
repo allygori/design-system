@@ -1,12 +1,10 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef } from "react";
 import useId from "@allygory/use-id";
 import * as Collapsible from "@allygory/collapsible";
 import { ITEM_NAME } from "./shared/constants";
 import { getState } from "./shared/utils";
-import {
-  type ScopedProps,
-  useCollapsibleScope,
-} from "./shared/context/base.context";
+import { type ScopedProps, useCollapsibleScope } from "./shared/context/base.context";
 import { useAccordionContext } from "./shared/context/root.context";
 import { useAccordionValueContext } from "./shared/context/root-impl-single.context";
 import { AccordionItemProvider } from "./shared/context/item.context";
@@ -41,9 +39,9 @@ const AccordionItem = forwardRef<AccordionItemElement, AccordionItemProps>(
 
     return (
       <AccordionItemProvider
-        scope={__scopeAccordion}
-        open={open}
         disabled={disabled}
+        open={open}
+        scope={__scopeAccordion}
         triggerId={triggerId}
       >
         <Collapsible.Root
@@ -54,8 +52,8 @@ const AccordionItem = forwardRef<AccordionItemElement, AccordionItemProps>(
           ref={forwardedRef}
           disabled={disabled}
           open={open}
-          onOpenChange={(open) => {
-            if (open) {
+          onOpenChange={(isOpen) => {
+            if (isOpen) {
               valueContext.onItemOpen(value);
             } else {
               valueContext.onItemClose(value);

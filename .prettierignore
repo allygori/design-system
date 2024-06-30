@@ -1,0 +1,23 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build artifacts:
+.next/
+out/
+build
+dist
+dist-ssr
+server/dist
+public/dist
+storybook-static/
+migration-storybook.log
+
+# Temp & trash bin
+.temp
+.trash
+
+# Cache
+%SystemDrive%
+.cache

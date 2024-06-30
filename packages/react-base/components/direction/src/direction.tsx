@@ -1,4 +1,5 @@
-import { FC, ReactNode, createContext, useContext } from "react";
+import type { FC, ReactNode } from "react";
+import { createContext, useContext } from "react";
 
 type Direction = "ltr" | "rtl";
 const DirectionContext = createContext<Direction | undefined>(undefined);
@@ -10,14 +11,10 @@ type DirectionProviderProps = {
 
 const DirectionProvider: FC<DirectionProviderProps> = (props) => {
   const { dir, children } = props;
-  return (
-    <DirectionContext.Provider value={dir}>
-      {children}
-    </DirectionContext.Provider>
-  );
+  return <DirectionContext.Provider value={dir}>{children}</DirectionContext.Provider>;
 };
 
-const useDirection = (localDir?: Direction) => {
+const useDirection = (localDir?: Direction): Direction => {
   const globalDir = useContext(DirectionContext);
   return localDir || globalDir || "ltr";
 };

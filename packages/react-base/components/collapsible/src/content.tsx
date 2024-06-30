@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import Presence from "@allygory/presence";
-import { ScopedProps, useCollapsibleContext } from "./shared/context";
 import { CONTENT_NAME } from "./shared/constants";
+import { type ScopedProps, useCollapsibleContext } from "./shared/context";
 import CollapsibleContentImpl from "./content-impl";
 import type {
   CollapsibleContentImplElement,
@@ -17,25 +17,24 @@ type CollapsibleContentProps = Omit<CollapsibleContentImplProps, "present"> & {
   forceMount?: true;
 };
 
-const CollapsibleContent = forwardRef<
-  CollapsibleContentElement,
-  CollapsibleContentProps
->((props: ScopedProps<CollapsibleContentProps>, forwardedRef) => {
-  const { forceMount, ...contentProps } = props;
-  const context = useCollapsibleContext(CONTENT_NAME, props.__scopeCollapsible);
+const CollapsibleContent = forwardRef<CollapsibleContentElement, CollapsibleContentProps>(
+  (props: ScopedProps<CollapsibleContentProps>, forwardedRef) => {
+    const { forceMount, ...contentProps } = props;
+    const context = useCollapsibleContext(CONTENT_NAME, props.__scopeCollapsible);
 
-  return (
-    <Presence present={forceMount || context.open}>
-      {({ present }) => (
-        <CollapsibleContentImpl
-          ref={forwardedRef}
-          {...contentProps}
-          present={present}
-        />
-      )}
-    </Presence>
-  );
-});
+    return (
+      <Presence present={forceMount || context.open}>
+        {({ present }) => (
+          <CollapsibleContentImpl
+            ref={forwardedRef}
+            {...contentProps}
+            present={present}
+          />
+        )}
+      </Presence>
+    );
+  },
+);
 
 CollapsibleContent.displayName = CONTENT_NAME;
 

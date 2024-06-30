@@ -1,10 +1,10 @@
-import { createAccordionContext } from "./base.context";
 import { ACCORDION_NAME } from "../constants";
+import { createAccordionContext } from "./base.context";
 
 type AccordionValueContextValue = {
   value: string[];
-  onItemOpen(value: string): void;
-  onItemClose(value: string): void;
+  onItemOpen: (value: string) => void;
+  onItemClose: (value: string) => void;
 };
 
 const [AccordionValueProvider, useAccordionValueContext] =

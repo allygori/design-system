@@ -1,9 +1,12 @@
-import {
+/* eslint-disable @typescript-eslint/no-explicit-any -- ignore */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment -- ignore */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access -- ignore */
+import type {
   ComponentPropsWithRef,
   ElementType,
   ForwardRefExoticComponent,
-  forwardRef,
 } from "react";
+import { forwardRef } from "react";
 import Slot from "@allygory/slot";
 
 const NODES = [
@@ -28,8 +31,9 @@ const NODES = [
 type ElementPropsWithRef<E extends ElementType> = ComponentPropsWithRef<E> & {
   asChild?: boolean;
 };
-type ElementForwardRefComponent<E extends ElementType> =
-  ForwardRefExoticComponent<ElementPropsWithRef<E>>;
+type ElementForwardRefComponent<E extends ElementType> = ForwardRefExoticComponent<
+  ElementPropsWithRef<E>
+>;
 type Elements = {
   [E in (typeof NODES)[number]]: ElementForwardRefComponent<E>;
 };
@@ -41,7 +45,7 @@ const Element = NODES.reduce((element, node) => {
       const Comp: any = asChild ? Slot : node;
 
       if (typeof window !== "undefined") {
-        (window as any)[Symbol.for("miru")] = true;
+        (window as any)[Symbol.for("allygory")] = true;
       }
 
       return <Comp {...elementProps} ref={forwardedRef} />;

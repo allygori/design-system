@@ -1,9 +1,5 @@
-import {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  forwardRef,
-  useState,
-} from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Element from "@allygory/element";
 import useLayoutEffect from "@allygory/use-layout-effect";
@@ -16,16 +12,18 @@ type PortalProps = ElementDivProps & {
   container?: Element | null;
 };
 
-const Portal = forwardRef<PortalElement, PortalProps>((props, forwardRef) => {
+const Portal = forwardRef<PortalElement, PortalProps>((props, forwardedRef) => {
   const { container: containerProp, ...portalProps } = props;
   const [mounted, setMounted] = useState(false);
 
-  useLayoutEffect(() => setMounted(true), []);
+  useLayoutEffect(() => {
+    setMounted(true);
+  }, []);
 
-  const container = containerProp || (mounted && globalThis?.document?.body);
+  const container = containerProp || (mounted && globalThis.document.body);
 
   return container
-    ? createPortal(<Element.div {...portalProps} ref={forwardRef} />, container)
+    ? createPortal(<Element.div {...portalProps} ref={forwardedRef} />, container)
     : null;
 });
 

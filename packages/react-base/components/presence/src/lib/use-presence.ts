@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument -- ignore*/
+/* eslint-disable @typescript-eslint/explicit-function-return-type -- ignore */
+/* eslint-disable @typescript-eslint/no-explicit-any -- ignore */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import useLayoutEffect from "@allygory/use-layout-effect";
@@ -26,8 +29,7 @@ const usePresence = (present: boolean) => {
 
   useEffect(() => {
     const currentAnimationName = getAnimationName(stylesRef.current);
-    prevAnimationNameRef.current =
-      state === "mounted" ? currentAnimationName : "none";
+    prevAnimationNameRef.current = state === "mounted" ? currentAnimationName : "none";
   }, [state]);
 
   useLayoutEffect(() => {
@@ -41,10 +43,7 @@ const usePresence = (present: boolean) => {
 
       if (present) {
         send("MOUNT");
-      } else if (
-        currentAnimationName === "none" ||
-        styles?.display === "none"
-      ) {
+      } else if (currentAnimationName === "none" || styles.display === "none") {
         // If there is no exit animation or the element is hidden, animations won't run
         // so we unmount instantly
         send("UNMOUNT");
@@ -77,14 +76,14 @@ const usePresence = (present: boolean) => {
        */
       const handleAnimationEnd = (event: AnimationEvent) => {
         const currentAnimationName = getAnimationName(stylesRef.current);
-        const isCurrentAnimation = currentAnimationName.includes(
-          event.animationName,
-        );
+        const isCurrentAnimation = currentAnimationName.includes(event.animationName);
         if (event.target === node && isCurrentAnimation) {
           // With React 18 concurrency this update is applied
           // a frame after the animation ends, creating a flash of visible content.
           // By manually flushing we ensure they sync within a frame, removing the flash.
-          flushSync(() => send("ANIMATION_END"));
+          flushSync(() => {
+            send("ANIMATION_END");
+          });
         }
       };
       const handleAnimationStart = (event: AnimationEvent) => {
@@ -101,18 +100,18 @@ const usePresence = (present: boolean) => {
         node.removeEventListener("animationcancel", handleAnimationEnd);
         node.removeEventListener("animationend", handleAnimationEnd);
       };
-    } else {
-      // Transition to the unmounted state if the node is removed prematurely.
-      // We avoid doing so during cleanup as the node may change but still exist.
-      send("ANIMATION_END");
     }
+
+    // Transition to the unmounted state if the node is removed prematurely.
+    // We avoid doing so during cleanup as the node may change but still exist.
+    send("ANIMATION_END");
   }, [node, send]);
 
   return {
     isPresent: ["mounted", "unmountSuspended"].includes(state),
-    ref: useCallback((node: HTMLElement) => {
-      if (node) stylesRef.current = getComputedStyle(node);
-      setNode(node);
+    ref: useCallback((n?: HTMLElement) => {
+      if (n) stylesRef.current = getComputedStyle(n);
+      setNode(n);
     }, []),
   };
 };

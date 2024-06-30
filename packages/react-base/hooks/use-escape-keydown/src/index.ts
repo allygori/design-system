@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import useCallbackRef from "@allygory/use-callback-ref";
 
-function useEscapeKeydown(
+const useEscapeKeydown = (
   onEscapeKeyDownProp?: (event: KeyboardEvent) => void,
-  ownerDocument: Document = globalThis?.document,
-) {
+  ownerDocument: Document = globalThis.document,
+): void => {
   const onEscapeKeyDown = useCallbackRef(onEscapeKeyDownProp);
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleKeyDown = (event: KeyboardEvent): void => {
       if (event.key === "Escape") {
         onEscapeKeyDown(event);
       }
@@ -16,11 +16,12 @@ function useEscapeKeydown(
 
     ownerDocument.addEventListener("keydown", handleKeyDown, { capture: true });
 
-    return () =>
+    return () => {
       ownerDocument.removeEventListener("keydown", handleKeyDown, {
         capture: true,
       });
+    };
   }, [onEscapeKeyDown, ownerDocument]);
-}
+};
 
 export default useEscapeKeydown;

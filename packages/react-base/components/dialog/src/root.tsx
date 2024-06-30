@@ -1,4 +1,5 @@
-import { useCallback, useRef, ReactNode, FC } from "react";
+import type { ReactNode, FC } from "react";
+import { useCallback, useRef } from "react";
 import useControllableState from "@allygory/use-controllable-state";
 import useId from "@allygory/use-id";
 import { ROOT_NAME } from "./shared/constants";
@@ -10,7 +11,7 @@ type RootProps = {
   open?: boolean;
   defaultOpen?: boolean;
   modal?: boolean;
-  onOpenChange?(open: boolean): void;
+  onOpenChange?: (open: boolean) => void;
 };
 
 const Root: FC<RootProps> = (props: ScopedProps<RootProps>) => {
@@ -33,16 +34,18 @@ const Root: FC<RootProps> = (props: ScopedProps<RootProps>) => {
 
   return (
     <RootProvider
-      scope={__scopeDialog}
-      triggerRef={triggerRef}
-      contentRef={contentRef}
       contentId={useId()}
-      titleId={useId()}
+      contentRef={contentRef}
       descriptionId={useId()}
-      open={open}
       modal={modal}
+      open={open}
+      scope={__scopeDialog}
+      titleId={useId()}
+      triggerRef={triggerRef}
       onOpenChange={setOpen}
-      onOpenToggle={useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen])}
+      onOpenToggle={useCallback(() => {
+        setOpen((prevOpen) => !prevOpen);
+      }, [setOpen])}
     >
       {children}
     </RootProvider>

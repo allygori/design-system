@@ -1,6 +1,5 @@
 "use client";
 
-import { createRootScope } from "./shared/context";
 import Root, { type RootProps } from "./root";
 import Trigger, { type TriggerProps } from "./trigger";
 import Portal, { type PortalProps } from "./portal";
@@ -11,7 +10,7 @@ import TitleWarning, { type TitleWarningProps } from "./title-warning";
 import Description, { type DescriptionProps } from "./description";
 import DescriptionWarning, { type DescriptionWarningProps } from "./description-warning";
 import Close, { type CloseProps } from "./close";
-import { WarningProvider } from "./shared/context";
+import { createRootScope, WarningProvider } from "./shared/context";
 
 const Dialog = Root;
 const DialogTrigger = Trigger;

@@ -1,4 +1,5 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
+import type { ComponentPropsWithoutRef, ElementRef } from "react";
+import { forwardRef } from "react";
 import Element, { composeEventHandlers } from "@allygory/element";
 import { CLOSE_NAME } from "./shared/constants";
 import { useToastInteractiveContext } from "./shared/context";
@@ -11,10 +12,7 @@ type ToastCloseProps = ComponentPropsWithoutRef<typeof Element.button>;
 const ToastClose = forwardRef<ToasCloseElement, ToastCloseProps>(
   (props: ScopedProps<ToastCloseProps>, forwardedRef) => {
     const { __scopeToast, ...closeProps } = props;
-    const interactiveContext = useToastInteractiveContext(
-      CLOSE_NAME,
-      __scopeToast,
-    );
+    const interactiveContext = useToastInteractiveContext(CLOSE_NAME, __scopeToast);
 
     return (
       <ToastAnnounceExclude asChild>
@@ -24,6 +22,7 @@ const ToastClose = forwardRef<ToasCloseElement, ToastCloseProps>(
           ref={forwardedRef}
           onClick={composeEventHandlers(
             props.onClick,
+            // eslint-disable-next-line @typescript-eslint/unbound-method -- ignore
             interactiveContext.onClose,
           )}
         />

@@ -1,10 +1,13 @@
-type FocusableTarget = HTMLElement | { focus(): void };
+/* eslint-disable @typescript-eslint/no-unnecessary-condition -- ignore */
+/* eslint-disable @typescript-eslint/no-explicit-any -- ignore */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access -- ignore */
+type FocusableTarget = HTMLElement | { focus: () => void };
 
 /**
  * Attempts focusing the first element in a list of candidates.
  * Stops when focus has actually moved.
  */
-const focusFirst = (candidates: HTMLElement[], { select = false } = {}) => {
+const focusFirst = (candidates: HTMLElement[], { select = false } = {}): void => {
   const previouslyFocusedElement = document.activeElement;
   for (const candidate of candidates) {
     focus(candidate, { select });
@@ -15,7 +18,9 @@ const focusFirst = (candidates: HTMLElement[], { select = false } = {}) => {
 /**
  * Returns the first and last tabbable elements inside a container.
  */
-const getTabbableEdges = (container: HTMLElement) => {
+const getTabbableEdges = (
+  container: HTMLElement,
+): [HTMLElement | undefined, HTMLElement | undefined] => {
   const candidates = getTabbableCandidates(container);
   const first = findVisible(candidates, container);
   const last = findVisible(candidates.reverse(), container);
@@ -32,19 +37,16 @@ const getTabbableEdges = (container: HTMLElement) => {
  * See: https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker
  * Credit: https://github.com/discord/focus-layers/blob/master/src/util/wrapFocus.tsx#L1
  */
-const getTabbableCandidates = (container: HTMLElement) => {
+const getTabbableCandidates = (container: HTMLElement): HTMLElement[] => {
   const nodes: HTMLElement[] = [];
   const walker = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, {
     acceptNode: (node: any) => {
-      const isHiddenInput = node.tagName === "INPUT" && node.type === "hidden";
-      if (node.disabled || node.hidden || isHiddenInput)
-        return NodeFilter.FILTER_SKIP;
+      const isHiddenInput = node?.tagName === "INPUT" && node?.type === "hidden";
+      if (node?.disabled || node?.hidden || isHiddenInput) return NodeFilter.FILTER_SKIP;
       // `.tabIndex` is not the same as the `tabindex` attribute. It works on the
       // runtime's understanding of tabbability, so this automatically accounts
       // for any kind of element that could be tabbed to.
-      return node.tabIndex >= 0
-        ? NodeFilter.FILTER_ACCEPT
-        : NodeFilter.FILTER_SKIP;
+      return node?.tabIndex >= 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
     },
   });
   while (walker.nextNode()) nodes.push(walker.currentNode as HTMLElement);
@@ -57,19 +59,23 @@ const getTabbableCandidates = (container: HTMLElement) => {
  * Returns the first visible element in a list.
  * NOTE: Only checks visibility up to the `container`.
  */
-const findVisible = (elements: HTMLElement[], container: HTMLElement) => {
+const findVisible = (
+  elements: HTMLElement[],
+  container: HTMLElement,
+): HTMLElement | undefined => {
   for (const element of elements) {
     // we stop checking if it's hidden at the `container` level (excluding)
     if (!isHidden(element, { upTo: container })) return element;
   }
 };
 
-const isHidden = (node: HTMLElement, { upTo }: { upTo?: HTMLElement }) => {
+const isHidden = (node: HTMLElement, { upTo }: { upTo?: HTMLElement }): boolean => {
   if (getComputedStyle(node).visibility === "hidden") return true;
   while (node) {
     // we stop at `upTo` (excluding it)
     if (upTo !== undefined && node === upTo) return false;
     if (getComputedStyle(node).display === "none") return true;
+    // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style, no-param-reassign -- ignore
     node = node.parentElement as HTMLElement;
   }
   return false;
@@ -81,18 +87,14 @@ const isSelectableInput = (
   return element instanceof HTMLInputElement && "select" in element;
 };
 
-const focus = (element?: FocusableTarget | null, { select = false } = {}) => {
+const focus = (element?: FocusableTarget | null, { select = false } = {}): void => {
   // only focus if that element is focusable
-  if (element && element.focus) {
+  if (element?.focus) {
     const previouslyFocusedElement = document.activeElement;
     // NOTE: we prevent scrolling on focus, to minimize jarring transitions for users
     element.focus({ preventScroll: true });
     // only select if its not the same element, it supports selection and we need to select
-    if (
-      element !== previouslyFocusedElement &&
-      isSelectableInput(element) &&
-      select
-    )
+    if (element !== previouslyFocusedElement && isSelectableInput(element) && select)
       element.select();
   }
 };
@@ -101,9 +103,12 @@ const focus = (element?: FocusableTarget | null, { select = false } = {}) => {
  * FocusScope stack
  * -----------------------------------------------------------------------------------------------*/
 
-type FocusScopeAPI = { paused: boolean; pause(): void; resume(): void };
+type FocusScopeAPI = { paused: boolean; pause: () => void; resume: () => void };
 
-function createFocusScopesStack() {
+const createFocusScopesStack = (): {
+  add: (focusScope: FocusScopeAPI) => void;
+  remove: (focusScope: FocusScopeAPI) => void;
+} => {
   /** A stack of focus scopes, with the active one at the top */
   let stack: FocusScopeAPI[] = [];
 
@@ -124,9 +129,9 @@ function createFocusScopesStack() {
       stack[0]?.resume();
     },
   };
-}
+};
 
-function arrayRemove<T>(array: T[], item: T) {
+function arrayRemove<T>(array: T[], item: T): T[] {
   const updatedArray = [...array];
   const index = updatedArray.indexOf(item);
   if (index !== -1) {
@@ -135,7 +140,7 @@ function arrayRemove<T>(array: T[], item: T) {
   return updatedArray;
 }
 
-function removeLinks(items: HTMLElement[]) {
+function removeLinks(items: HTMLElement[]): HTMLElement[] {
   return items.filter((item) => item.tagName !== "A");
 }
 

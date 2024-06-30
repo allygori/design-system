@@ -1,6 +1,6 @@
-import { createAccordionContext } from "./base.context";
 import { ACCORDION_NAME } from "../constants";
 import type { AccordionRootImplProps } from "../../root-impl";
+import { createAccordionContext } from "./base.context";
 
 type AccordionImplContextValue = {
   disabled?: boolean;

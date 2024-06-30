@@ -1,5 +1,5 @@
-import { createAccordionContext } from "./base.context";
 import { ITEM_NAME } from "../constants";
+import { createAccordionContext } from "./base.context";
 
 type AccordionItemContextValue = {
   open?: boolean;

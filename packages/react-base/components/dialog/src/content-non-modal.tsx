@@ -1,5 +1,5 @@
 import { forwardRef, useRef } from "react";
-import { ScopedProps, useRootContext } from "./shared/context";
+import { type ScopedProps, useRootContext } from "./shared/context";
 import { CONTENT_NAME } from "./shared/constants";
 import DialogContentImpl from "./content-impl";
 import type { ContentImplElement, ContentImplProps } from "./content-impl";
@@ -17,8 +17,8 @@ const ContentNonModal = forwardRef<ContentNonModalElement, ContentNonModalProps>
       <DialogContentImpl
         {...props}
         ref={forwardedRef}
-        trapFocus={false}
         disableOutsidePointerEvents={false}
+        trapFocus={false}
         onCloseAutoFocus={(event) => {
           props.onCloseAutoFocus?.(event);
 
