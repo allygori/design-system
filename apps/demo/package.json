@@ -1,14 +1,17 @@
 {
   "name": "demo",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist && rm -rf .next"
   },
   "dependencies": {
+    "@allygory/action-sheet": "workspace:^",
+    "@allygory/dialog": "workspace:^",
     "@allygory/toast": "workspace:^",
     "@allygory/with-tailwind": "workspace:^",
     "clsx": "^2.1.1",

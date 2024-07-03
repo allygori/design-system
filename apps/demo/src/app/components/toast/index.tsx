@@ -25,7 +25,7 @@ const ToastComponent = ({ className = "" }: Props) => {
           }
         }}
       >
-        Open Toas
+        Open Toast
       </button>
       <Toast.Root
         open={open}

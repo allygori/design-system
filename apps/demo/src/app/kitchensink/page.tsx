@@ -1,4 +1,6 @@
-import ToastComponent from "../components/toast";
+import Toast from "../components/toast";
+import Dialog from "../components/dialog";
+import ActionSheet from "../components/action-sheet";
 
 type Props = {
   className?: string;
@@ -7,7 +9,9 @@ type Props = {
 const KitchensinkPage = ({ className = "" }: Props) => {
   return (
     <main className="h-[1500px] min-h-screen w-full bg-gray-200">
-      <ToastComponent />
+      <Toast />
+      <Dialog />
+      <ActionSheet />
     </main>
   );
 };

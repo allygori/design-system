@@ -5,17 +5,23 @@ type Options = {
 };
 
 export = plugin.withOptions<Options>((options) => ({ addUtilities, matchVariant }) => {
-  // options = options
+  const opts = {
+    ...options,
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- ignore
+    variantPrefix: options?.variantPrefix || "allygory",
+  };
+  // // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- ignore
+  // const opts = options
   //   ? options
   //   : {
   //       variantPrefix: "allygory",
   //     };
 
   const variantPrefix =
-    options.variantPrefix === "" ||
-    (typeof options.variantPrefix === "boolean" && options.variantPrefix === false)
+    opts.variantPrefix === "" ||
+    (typeof opts.variantPrefix === "boolean" && opts.variantPrefix === false)
       ? ""
-      : `${options.variantPrefix}`;
+      : opts.variantPrefix;
 
   // Adds variants for boolean data attributes
   const booleanAttributes = {
@@ -225,7 +231,20 @@ export = plugin.withOptions<Options>((options) => ({ addUtilities, matchVariant 
   // Adds the following [x|y] utilities
   // `--allygory-toast-swipe-end-[x|y]`,
   // `--allygory-toast-swipe-move-[x|y]`,
-  (["toast-swipe-end", "toast-swipe-move"] as const).forEach((swipe) => {
+  // `--allygory-action-sheet-swipe-end-[x|y]`,
+  // `--allygory-action-sheet-swipe-move-[x|y]`,
+  // `--allygory-swipe-move-[x|y]`,
+  // `--allygory-swipe-move-[x|y]`,
+  (
+    [
+      "toast-swipe-end",
+      "toast-swipe-move",
+      "action-sheet-swipe-end",
+      "action-sheet-swipe-move",
+      "swipe-end",
+      "swipe-move",
+    ] as const
+  ).forEach((swipe) => {
     addUtilities({
       [`.translate-x-${variantPrefix}-${swipe}-x`]: {
         transform: `translateX(var(--allygory-${swipe}-x))`,
