@@ -677,6 +677,46 @@ importers:
         specifier: ^5.3.3
         version: 5.4.5
 
+  packages/react-base/components/input-number:
+    dependencies:
+      '@allygory/context':
+        specifier: workspace:^
+        version: link:../context
+      '@allygory/element':
+        specifier: workspace:^
+        version: link:../element
+      react:
+        specifier: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+        version: 18.3.1
+    devDependencies:
+      '@allygory/eslint-config':
+        specifier: workspace:*
+        version: link:../../../eslint-config
+      '@allygory/typescript-config':
+        specifier: workspace:*
+        version: link:../../../typescript-config
+      '@allygory/use-escape-keydown':
+        specifier: workspace:^
+        version: link:../../hooks/use-escape-keydown
+      '@allygory/use-focus-outside':
+        specifier: workspace:^
+        version: link:../../hooks/use-focus-outside
+      '@allygory/use-pointer-down-outside':
+        specifier: workspace:^
+        version: link:../../hooks/use-pointer-down-outside
+      '@types/react':
+        specifier: ^18.2.61
+        version: 18.3.3
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      tsup:
+        specifier: ^8.0.2
+        version: 8.0.2(postcss@8.4.38)(typescript@5.4.5)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.4.5
+
   packages/react-base/components/portal:
     dependencies:
       '@allygory/element':
