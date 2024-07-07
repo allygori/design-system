@@ -3,7 +3,7 @@ import { createTheme, keyframes, style } from "@vanilla-extract/css";
 // const shadowColor = createVar();
 
 const [themeClass, vars] = createTheme({
-  color: {
+  colors: {
     white: "#fff",
     gray100: "#ccc",
     gray300: "#aaa",
@@ -52,10 +52,7 @@ export const headerClass = style({
   margin: 0,
 });
 
-const RECOMMENDED_CSS__ACCORDION__TRIGGER: Record<
-  string,
-  string | number | object
-> = {
+const RECOMMENDED_CSS__ACCORDION__TRIGGER: Record<string, string | number | object> = {
   // because it's a button, we want to stretch it
   '&[data-orientation="horizontal"]': {
     height: "100%",
@@ -73,7 +70,7 @@ export const triggerClass = style({
   appearance: "none",
   border: "none",
   padding: 10,
-  backgroundColor: vars.color.black,
+  backgroundColor: vars.colors.black,
   color: "white",
   fontFamily: "inherit",
   fontSize: "1.2em",
@@ -86,16 +83,16 @@ export const triggerClass = style({
     "&:focus": {
       outline: "none",
       boxShadow: "inset 0 -5px 0 0 var(--shadow-color)",
-      color: vars.color.red,
+      color: vars.colors.red,
     },
 
     "&[data-disabled]": {
-      color: vars.color.gray300,
+      color: vars.colors.gray300,
     },
 
     '&[data-state="open"]': {
-      backgroundColor: vars.color.red,
-      color: vars.color.white,
+      backgroundColor: vars.colors.red,
+      color: vars.colors.white,
 
       // "&:focus": {
       //   "--shadow-color": "#111",
@@ -107,7 +104,7 @@ export const triggerClass = style({
       vars: {
         "--shadow-color": "#111",
       },
-      color: vars.color.black,
+      color: vars.colors.black,
     },
   },
 });
@@ -178,8 +175,8 @@ export const styles = {
   border: "2px solid blue",
   padding: 10,
 
-  '&[data-state="closed"]': { borderColor: vars.color.red },
-  '&[data-state="open"]': { borderColor: vars.color.green },
+  '&[data-state="closed"]': { borderColor: vars.colors.red },
+  '&[data-state="open"]': { borderColor: vars.colors.green },
   "&[data-disabled]": { borderStyle: "dashed" },
   "&:disabled": { opacity: 0.5 },
 };

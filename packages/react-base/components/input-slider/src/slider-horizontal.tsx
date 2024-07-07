@@ -58,7 +58,7 @@ const SliderHorizontal = forwardRef<SliderHorizontalElement, SliderHorizontalPro
     const getValueFromPointer = (pointerPosition: number): number => {
       const rect = rectRef.current || slider?.getBoundingClientRect();
       const input: [number, number] = [0, rect?.width ?? 0];
-      const output: [number, number] = isSliddingFromLeft ? [min, max] : [min, max];
+      const output: [number, number] = isSliddingFromLeft ? [min, max] : [max, min];
       const value = linearScale(input, output);
 
       rectRef.current = rect;

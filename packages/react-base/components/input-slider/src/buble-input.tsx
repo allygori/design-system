@@ -1,6 +1,5 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { useEffect, useRef } from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies -- ignore
 import usePrevious from "@allygory/use-previous";
 
 type Props = ComponentPropsWithoutRef<"input">;
@@ -8,7 +7,6 @@ type Props = ComponentPropsWithoutRef<"input">;
 const BubbleInput = (props: Props): JSX.Element => {
   const { value, ...inputProps } = props;
   const ref = useRef<HTMLInputElement>(null);
-  // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression -- ignore
   const prevValue = usePrevious(value);
 
   // Bubble value change to parents (e.g form change event)

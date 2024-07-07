@@ -3,7 +3,7 @@ import { createTheme, keyframes, style } from "@vanilla-extract/css";
 const VIEWPORT_PADDING = 10;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const [themeClass, vars] = createTheme({
-  color: {
+  colors: {
     gray100: "#ccc",
     green: "green",
   },
@@ -185,12 +185,12 @@ export const progressBarClass = style({
   right: 0,
   height: 2,
   overflow: "hidden",
-  backgroundColor: vars.color.gray100,
+  backgroundColor: vars.colors.gray100,
 });
 
 export const progressBarInnerClass = style({
   height: "100%",
-  backgroundColor: vars.color.green,
+  backgroundColor: vars.colors.green,
   animationName: loading,
   animationTimingFunction: "linear",
 });

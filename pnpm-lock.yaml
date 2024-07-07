@@ -91,15 +91,24 @@ importers:
       '@allygory/dismissable-layer':
         specifier: workspace:^
         version: link:../../packages/react-base/components/dismissable-layer
+      '@allygory/input-slider':
+        specifier: workspace:^
+        version: link:../../packages/react-base/components/input-slider
       '@allygory/slot':
         specifier: workspace:^
         version: link:../../packages/react-base/components/slot
       '@allygory/toast':
         specifier: workspace:^
         version: link:../../packages/react-base/components/toast
+      '@allygory/use-direction':
+        specifier: workspace:^
+        version: link:../../packages/react-base/hooks/use-direction
       '@vanilla-extract/css':
         specifier: ^1.15.3
         version: 1.15.3
+      form-serialize:
+        specifier: ^0.7.2
+        version: 0.7.2
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -134,6 +143,9 @@ importers:
       '@storybook/test':
         specifier: ^8.1.10
         version: 8.1.10(vitest@1.6.0(@types/node@20.14.9))
+      '@types/form-serialize':
+        specifier: ^0.7.4
+        version: 0.7.4
       '@types/react':
         specifier: ^18.3.3
         version: 18.3.3
@@ -3282,6 +3294,9 @@ packages:
   '@types/find-cache-dir@3.2.1':
     resolution: {integrity: sha512-frsJrz2t/CeGifcu/6uRo4b+SzAwT4NYCVPu1GN8IB9XTzrpPkGuV0tmh9mN+/L0PklAlsC3u5Fxt0ju00LXIw==}
 
+  '@types/form-serialize@0.7.4':
+    resolution: {integrity: sha512-9lmMvL6qLnT+VaumhbMNwqDyuO93reQK6AnqlNzhzS+HtDfgQKVRjXO3grbO1HL5NJsbqsfTxE2gSv8tgusEAw==}
+
   '@types/glob@7.2.0':
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
 
@@ -4779,6 +4794,9 @@ packages:
   foreground-child@3.1.1:
     resolution: {integrity: sha512-TMKDUnIte6bfb5nWv7V/caI169OHgvwjb7V4WkeUvbQQdjr5rWKqHFiKWb/fcOwB+CzBT+qbWjvj+DVwRskpIg==}
     engines: {node: '>=14'}
+
+  form-serialize@0.7.2:
+    resolution: {integrity: sha512-ohEA4Crzd/+hSREjGf4kSsy73WhAtQ7H+blGEz2DVd+JCi0TV5nZBSn9PaPlvrl9m29fa6xclAfpRkqZ57b1bw==}
 
   forwarded@0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
@@ -9878,6 +9896,8 @@ snapshots:
 
   '@types/find-cache-dir@3.2.1': {}
 
+  '@types/form-serialize@0.7.4': {}
+
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
@@ -11883,6 +11903,8 @@ snapshots:
     dependencies:
       cross-spawn: 7.0.3
       signal-exit: 4.1.0
+
+  form-serialize@0.7.2: {}
 
   forwarded@0.2.0: {}
 

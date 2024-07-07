@@ -48,7 +48,6 @@ const SliderImpl = forwardRef<SliderImplElement, SliderImplProps>(
             onEndKeyDown(event);
             // Prevent scrolling to page end
             event.preventDefault();
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call -- ignore
           } else if (PAGE_KEYS.concat(ARROW_KEYS).includes(event.key)) {
             onStepKeyDown(event);
             // Prevent scrolling for directional key presses
